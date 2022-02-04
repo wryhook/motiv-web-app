@@ -12,14 +12,14 @@ export default function Setup() {
   const [angle, setAngle] = useState(0)
 
   //  Load posenet
-  const runPosenet = async () => {
+  const runModel = async () => {
     const detectorConfig = {modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING};
     const model = poseDetection.SupportedModels.MoveNet
     const detector = await poseDetection.createDetector(model, detectorConfig);
 
     setInterval(() => {
       detect(detector);
-    }, 100);
+    }, 1000);
   };
 
   const detect = async (detector) => {
@@ -46,16 +46,16 @@ export default function Setup() {
       let totalAngleDegrees = Math.floor(180 * (angle1 + angle2)/Math.PI)
       
       //console.log(poses[0].keypoints)
-      setAngle(totalAngleDegrees);
-      //console.log(totalAngleDegrees);
+      //setAngle(totalAngleDegrees);
+      console.log(totalAngleDegrees);
     }
   };
 
-  runPosenet();
+  runModel();
 
   return (
     <div style={styles.body}>
-        <h1 style={styles.text}>Angle: {angle} degrees</h1>
+        {/* <h1 style={styles.text}>Angle: {angle} degrees</h1> */}
         <Webcam ref={webcamRef} style={styles.video} />
         <canvas style={styles.video} />
     </div>
