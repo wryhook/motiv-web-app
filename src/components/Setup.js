@@ -9,7 +9,12 @@ import Webcam from 'react-webcam';
 
 export default function Setup() {
   const webcamRef = useRef(null)
-  const [angle, setAngle] = useState(0)
+  //const [angle, setAngle] = useState(0)
+  let last5Angles = []
+  let averageAngle
+  let last3AverageAngles = []
+  let aboveThreshold = false
+  let halfReps = 0
 
   //  Load posenet
   const runModel = async () => {
@@ -19,7 +24,37 @@ export default function Setup() {
 
     setInterval(() => {
       detect(detector);
-    }, 1000);
+      if(last5Angles.length >= 5){
+        let sum = last5Angles.reduce((a, b) => a + b, 0);
+        averageAngle = sum / last5Angles.length
+        if(last3AverageAngles.length < 3){
+          last3AverageAngles.push(averageAngle)
+        }
+        else {
+          last3AverageAngles.unshift(averageAngle)
+          last3AverageAngles.pop()
+          if(last3AverageAngles[0] < 150 &&
+             last3AverageAngles[1] < 150 &&
+             last3AverageAngles[2] < 150) {
+               if(!aboveThreshold){
+                 aboveThreshold = true
+                 halfReps += 1
+               }
+             }
+          if(last3AverageAngles[0] > 150 &&
+          last3AverageAngles[1] > 150 &&
+          last3AverageAngles[2] > 150) {
+            if(aboveThreshold){
+              aboveThreshold = false
+              halfReps += 1
+            }
+          }
+        
+          }
+        }
+        console.log(Math.floor(halfReps / 2))
+    }, 200);
+
   };
 
   const detect = async (detector) => {
@@ -39,15 +74,22 @@ export default function Setup() {
 
       // Make Detections
       const poses = await detector.estimatePoses(video);
-
+      
       // Calculate leg angle
       let angle1 = Math.atan((poses[0].keypoints[14].y - poses[0].keypoints[12].y) / (poses[0].keypoints[12].x - poses[0].keypoints[14].x))
       let angle2 = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
       let totalAngleDegrees = Math.floor(180 * (angle1 + angle2)/Math.PI)
-      
-      //console.log(poses[0].keypoints)
-      //setAngle(totalAngleDegrees);
-      console.log(totalAngleDegrees);
+      if(totalAngleDegrees < 0) {
+        totalAngleDegrees = 180 + totalAngleDegrees
+      }
+
+      if(last5Angles.length < 5) {
+        last5Angles.push(totalAngleDegrees)
+      }
+      else {
+        last5Angles.unshift(totalAngleDegrees)
+        last5Angles.pop()
+      }
     }
   };
 
@@ -56,7 +98,7 @@ export default function Setup() {
   return (
     <div style={styles.body}>
         {/* <h1 style={styles.text}>Angle: {angle} degrees</h1> */}
-        <Webcam ref={webcamRef} style={styles.video} />
+        <Webcam ref={webcamRef} style={styles.video} mirrored={true} />
         <canvas style={styles.video} />
     </div>
   );
