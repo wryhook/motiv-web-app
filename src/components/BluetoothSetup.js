@@ -24,7 +24,7 @@ function BluetoothSetup() {
   }
 
   return (
-    <div className="App">
+    <div>
       <div style={styles.button} onClick={handleClick}>Connect to Bluetooth</div>
     </div>
   );
