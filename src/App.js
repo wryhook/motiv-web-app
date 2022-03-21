@@ -13,10 +13,7 @@ export default function App() {
 
   return (
     <div style={styles.body}>
-      <Sidebar />
-      <Main />
-      {/* <BluetoothSetup />
-      <Setup /> */}
+      <BluetoothSetup />
     </div>
   )
 }
