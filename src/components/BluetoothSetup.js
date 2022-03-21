@@ -1,26 +1,40 @@
+import { any } from "@tensorflow/tfjs-core";
+
 function BluetoothSetup() {
 
   function handleClick() {
+    console.log("HandleClick ran")
     navigator.bluetooth.requestDevice({ filters: [{ 
-      services: ['battery_service'] 
-    }] })
+      name: ['Motiv Sensor'] 
+    }],
+    optionalServices: ['4fafc201-1fb5-459e-8fcc-c5c9c331914b'] // Required to access service later.
+    })
     .then(device => device.gatt.connect())
     .then(server => {
       // Getting Battery Service…
-      return server.getPrimaryService('battery_service');
+      return server.getPrimaryService('4fafc201-1fb5-459e-8fcc-c5c9c331914b');
     })
     .then(service => {
       // Getting Battery Level Characteristic…
-      return service.getCharacteristic('battery_level');
+      return Promise.all([
+        service.getCharacteristic('beb5483e-36e1-4688-b7f5-ea07361b26a8')
+          .then(handleBatteryLevelCharacteristic)
+      ])
     })
-    .then(characteristic => {
-      // Reading Battery Level…
-      return characteristic.readValue();
-    })
-    .then(value => {
-      console.log(`Battery percentage is ${value.getUint8(0)}`);
-    })
-    .catch(error => { console.error(error); });
+  }
+
+  function handleBatteryLevelCharacteristic(characteristic) {
+    setInterval(() => {
+      //console.log("handleBatterylevel ran")
+      return characteristic.readValue()
+      .then(value => {
+        let angle = value.getUint8(0); 
+        if(angle > 255/2){  //getting signed angles from unsigned int value
+            angle = angle - 255; 
+        }
+        console.log(`Angle: ${angle}`);
+      })
+    }, 500)
   }
 
   return (

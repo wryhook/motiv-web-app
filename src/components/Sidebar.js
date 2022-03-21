@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import SidebarButton from "./SidebarButton"
+import SidebarButton from "../components/SidebarButton"
 
 export default function Sidebar() {
     const Body = styled.div`
