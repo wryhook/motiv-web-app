@@ -1,6 +1,6 @@
 import { any } from "@tensorflow/tfjs-core";
 
-function BluetoothSetup() {
+function BluetoothSetup({IMUToData}) {
 
   function handleClick() {
     console.log("HandleClick ran")
@@ -26,13 +26,18 @@ function BluetoothSetup() {
   function handleBatteryLevelCharacteristic(characteristic) {
     setInterval(() => {
       //console.log("handleBatterylevel ran")
+      
       return characteristic.readValue()
       .then(value => {
+        //const [angle, setAngle] = useState(0)
+        
         let angle = value.getUint8(0); 
         if(angle > 255/2){  //getting signed angles from unsigned int value
             angle = angle - 255; 
         }
         console.log(`Angle: ${angle}`);
+        IMUToData(angle)//to be compared with CV angle and/or then used in rep counting
+        //or try angle.onchange ??? 
       })
     }, 500)
   }

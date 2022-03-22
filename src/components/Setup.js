@@ -7,7 +7,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import * as mpPose from '@mediapipe/pose';
 import Webcam from 'react-webcam';
 
-export default function Setup() {
+export default function Setup({CVToData}) {
   const webcamRef = useRef(null)
   //const [angle, setAngle] = useState(0)
   let last5Angles = []
@@ -22,7 +22,7 @@ export default function Setup() {
     const model = poseDetection.SupportedModels.MoveNet
     const detector = await poseDetection.createDetector(model, detectorConfig);
 
-    setInterval(() => {
+    setInterval(() => { 
       detect(detector);
       if(last5Angles.length >= 5){
         let sum = last5Angles.reduce((a, b) => a + b, 0);
@@ -50,10 +50,11 @@ export default function Setup() {
             }
           }
         
-          }
+          } 
         }
-        console.log(Math.floor(halfReps / 2))
-    }, 200);
+        console.log(Math.floor(halfReps / 2)) 
+        CVToData(averageAngle) //send angle to be compared with IMU angle then do rep counting (in Data component) 
+    }, 500);
 
   };
 
@@ -80,7 +81,7 @@ export default function Setup() {
       let angle2 = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
       let totalAngleDegrees = Math.floor(180 * (angle1 + angle2)/Math.PI)
       if(totalAngleDegrees < 0) {
-        totalAngleDegrees = 180 + totalAngleDegrees
+        totalAngleDegrees = 180 + totalAngleDegrees //CHANGE!? cuz we want unsigned angles to compare with IMU values
       }
 
       if(last5Angles.length < 5) {

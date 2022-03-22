@@ -4,6 +4,7 @@ import BluetoothSetup from "./components/BluetoothSetup";
 import Main from "./components/Main";
 import TodaysSessionCard from "./components/Pages/TodaysSessionCard";
 import Sidebar from "./components/Sidebar";
+import Data from "./components/Data"
 
 /* callbackFunction = (IMU_angle) => {
 this.setState({message: IMU_angle})
@@ -13,8 +14,8 @@ export default function App() {
 
   return (
     <div style={styles.body}>
-      <Sidebar />
-      <Main />
+      
+      <Data />
       {/* <BluetoothSetup />
       <Setup /> */}
     </div>
