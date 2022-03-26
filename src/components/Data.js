@@ -4,10 +4,10 @@ import BluetoothSetup from './BluetoothSetup';
 import { ThemeConsumer } from 'styled-components';
 
 export default function Data() { //parent component compares CV and IMU angles to ensure correctness of IMU, then counts reps
-    //easiest to use polling to check for new angle values then compare
+    //could use polling to check for new angle values then compare? or combine setups in 1 component?
     
-    const [CVdata, setCVData] = useState('');
-    const [IMUdata, setIMUData] = useState('');
+    const [CVdata, setCVData] = useState(Number);
+    const [IMUdata, setIMUData] = useState(Number);
     let errorcounter = 0;
   
     const CVToData = (CV_angle) => {
@@ -18,11 +18,15 @@ export default function Data() { //parent component compares CV and IMU angles t
         setIMUData(IMU_angle);
     }    
 
-    .onchange = console.log("Compare dis")
-    .onchange = CompareAngle();
+    /* setInterval(() => {
+    CompareAngle();
+    }, 500) */
 
-    function CompareAngle() { //compare the angle values
+    //CVdata.onchange = console.log("We got a reading")
+    //IMUdata.onchange = CompareAngle();
 
+    /* function CompareAngle() { //compare the angle values
+        //console.log("We got a reading")
         if (IMUdata > CVdata + 10 || IMUdata < CVdata - 10) {
             console.log("Re-Calibrate Device");
             errorcounter++;
@@ -30,12 +34,18 @@ export default function Data() { //parent component compares CV and IMU angles t
                
             } 
         }
-    }
+    } */
     
     return (
-        <div>
-            <BluetoothSetup IMUToData={IMUToData}/>
-            <Setup CVToData={CVToData}/>
+        <div className='App'>
+            {CVdata}
+                <div className='setup'> 
+                    <Setup CVToData={CVToData}/>
+                </div>
+            {IMUdata}
+                <div>
+                    <BluetoothSetup IMUToData={IMUToData}/>
+                </div>
         </div>
     );                  
 }

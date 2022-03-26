@@ -11,10 +11,11 @@ export default function Setup({CVToData}) {
   const webcamRef = useRef(null)
   //const [angle, setAngle] = useState(0)
   let last5Angles = []
-  let averageAngle
+  let averageAngle = 0
   let last3AverageAngles = []
   let aboveThreshold = false
   let halfReps = 0
+  let fullReps = 0
 
   //  Load posenet
   const runModel = async () => {
@@ -52,10 +53,19 @@ export default function Setup({CVToData}) {
         
           } 
         }
-        console.log(Math.floor(halfReps / 2)) 
-        CVToData(averageAngle) //send angle to be compared with IMU angle then do rep counting (in Data component) 
-    }, 500);
-
+        fullReps = Math.floor(halfReps / 2) 
+        
+        
+        //averageAngle.onchange = CVToData(averageAngle);
+        //CVToData(averageAngle) //send angle to be compared with IMU angle then do rep counting (in Data component) 
+    }, 200);// how fast leg raise is read!!!
+    
+    setInterval(() => { 
+      if (fullReps > 0) {
+        console.log(`Leg Raises: ${fullReps}`);
+      }
+      }, 500);// how fast it posts to console
+    
   };
 
   const detect = async (detector) => {

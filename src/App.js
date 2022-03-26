@@ -14,7 +14,6 @@ export default function App() {
 
   return (
     <div style={styles.body}>
-      
       <Data />
       {/* <BluetoothSetup />
       <Setup /> */}
