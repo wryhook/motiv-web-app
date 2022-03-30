@@ -6,6 +6,7 @@ import TodaysSessionCard from "./TodaysSessionCard";
 export default function Home() {
     const Main = styled.div`
         margin: 2rem;
+        margin-left: 3rem;
         color: #4f4f4f;
         
     `
@@ -23,7 +24,7 @@ export default function Home() {
             <Sidebar />
             <Main>
                 <Greeting>
-                    Good Evening, <span style={{fontWeight: 600}}>Abdullah</span>
+                    Good Evening, <span style={{fontWeight: 600}}>IGEN 430</span>
                 </Greeting>
                 <TodaysSessionCard />
             </Main>

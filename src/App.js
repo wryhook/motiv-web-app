@@ -1,22 +1,28 @@
 import Home from "./components/Home";
-import Setup from "./components/Setup";
+import PoseEstimation from "./components/PoseEstimation";
 import BluetoothSetup from "./components/BluetoothSetup";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ExerciseScreen from "./components/ExerciseScreen";
 
 export default function App() {
   return (
-    <div style={styles.body}>
-      <BluetoothSetup />
-    </div>
+    <Router>
+      <div style={styles.body}>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/bluetooth" element={<BluetoothSetup />} />
+          <Route path="/Webcam" element={<PoseEstimation />} />
+          <Route path="/exercise" element={<ExerciseScreen />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
 const styles = {
   body: {
-    background: '#d4f0ff',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     height: '100vh',
   },
 }
