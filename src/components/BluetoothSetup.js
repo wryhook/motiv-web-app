@@ -11,7 +11,7 @@ function BluetoothSetup({IMUToData}) {
     })
     .then(device => device.gatt.connect())
     .then(server => {
-      // Getting  Service…
+      // Getting Service…
       return server.getPrimaryService('4fafc201-1fb5-459e-8fcc-c5c9c331914b');
     })
     .then(service => {
