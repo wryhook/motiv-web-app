@@ -60,6 +60,7 @@ const PoseEstimation = React.memo(({ updateReps }) => {
       //let leftangle1 = Math.atan((poses[0].keypoints[14].y - poses[0].keypoints[12].y) / (poses[0].keypoints[12].x - poses[0].keypoints[14].x))
       let rightAngleRaw = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
       rightLegAngle = 90 - Math.abs(Math.floor(180 * (rightAngleRaw)/Math.PI))
+      updateReps(rightLegAngle)
 
 
       // let rightangle1 = Math.atan((poses[0].keypoints[13].y - poses[0].keypoints[11].y) / (poses[0].keypoints[13].x - poses[0].keypoints[11].x))
@@ -111,7 +112,7 @@ const PoseEstimation = React.memo(({ updateReps }) => {
           fullReps = Math.floor(halfReps / 2)
 
           if(fullReps > prevFullReps) {
-            updateReps()
+            //updateReps()
           }
 
           newMaxAngle = Math.max.apply(Math, last3AverageAngles)

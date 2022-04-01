@@ -8,8 +8,8 @@ export default function ExerciseScreen() {
     const [cameraReps, setCameraReps] = useState(0)
     const [bluetoothReps, setBluetoothReps] = useState(0)
     
-    const incrementCameraReps = useCallback(() => {
-        setCameraReps(prevReps => prevReps + 1)
+    const incrementCameraReps = useCallback((cameraAngle) => {
+        setCameraReps(cameraAngle)
     }, [setCameraReps])
 
     const incrementBluetoothReps = useCallback(() => {
