@@ -82,7 +82,7 @@ const PoseEstimation = React.memo(({ updateReps }) => {
         let sum = last5Angles.reduce((a, b) => a + b, 0);
         averageAngle = sum / last5Angles.length
 
-        console.log(averageAngle)
+        //console.log(averageAngle)
         
         if(last3AverageAngles.length < 3){
           last3AverageAngles.push(averageAngle)

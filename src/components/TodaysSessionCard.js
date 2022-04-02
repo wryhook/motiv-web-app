@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components" //connects to database to store just-completed workout 
 
 export default function TodaysSessionCard() {
     const Body = styled.div`
