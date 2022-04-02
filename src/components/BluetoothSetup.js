@@ -1,13 +1,13 @@
 import { useState } from "react"
 
 function BluetoothSetup(props) {
-  let last5Angles = []
-  let averageAngle
-  let last3AverageAngles = []
+  const THRESHOLD = 15
+  let last3Angles = []
   let aboveThreshold = false
-  let halfReps = 0
-  let prevFullReps = 0
-  let fullReps = 0
+  let repAngles = []
+  let repMaxes = []
+  let prevReps = 0
+  let reps = 0
   let newMaxAngle = 0
   let maxAngle = 0
   
@@ -72,60 +72,99 @@ function BluetoothSetup(props) {
 
         props.updateAngle(angle)
 
-        if(last5Angles.length < 5) {
-
-          last5Angles.push(angle)
+        
+        
+        if(last3Angles.length < 3){
+          last3Angles.push(angle)
         }
         else {
-          last5Angles.unshift(angle)
-          last5Angles.pop()
-  
-          let sum = last5Angles.reduce((a, b) => a + b, 0);
-          averageAngle = sum / last5Angles.length
-  
-          console.log(averageAngle)
-          
-          if(last3AverageAngles.length < 3){
-            last3AverageAngles.push(averageAngle)
-          }
-          else {
-            last3AverageAngles.unshift(averageAngle)
-            last3AverageAngles.pop()
-            if(last3AverageAngles[0] > 45 &&
-               last3AverageAngles[1] > 45 &&
-               last3AverageAngles[2] > 45) {
-                 if(!aboveThreshold){
-                   aboveThreshold = true
-                   halfReps += 1
-                 }
-               }
-            if(last3AverageAngles[0] < 45 &&
-            last3AverageAngles[1] < 45 &&
-            last3AverageAngles[2] < 45) {
-              if(aboveThreshold){
-                aboveThreshold = false
-                halfReps += 1
-              }
+          last3Angles.unshift(angle)
+          last3Angles.pop()
+
+          if(last3Angles[0] > THRESHOLD &&
+            last3Angles[1] > THRESHOLD &&
+            last3Angles[2] > THRESHOLD) {
+            if(!aboveThreshold){
+              aboveThreshold = true
+              repAngles.length = 0
             }
-  
-            prevFullReps = fullReps
-            fullReps = Math.floor(halfReps / 2)
-  
-            if(fullReps > prevFullReps) {
+          }
+          
+          if(aboveThreshold){
+            repAngles.push(angle)
+          }
+
+          if(last3Angles[0] < THRESHOLD &&
+          last3Angles[1] < THRESHOLD &&
+          last3Angles[2] < THRESHOLD) {
+            if(aboveThreshold){
+              aboveThreshold = false
+              reps += 1
+              console.log(`REPS: ${reps}`)
               props.updateReps()
-            }
-  
-            newMaxAngle = Math.max.apply(Math, last3AverageAngles)
-            if(newMaxAngle > maxAngle){
-              maxAngle = newMaxAngle
-            }
-            console.log(`max angle IMU: ${maxAngle}`)
-          
+              let repMax = Math.max.apply(Math, repAngles)
+              repMaxes.push(repMax)
+              console.log(`ALL ANGLES RECORDED: ${repAngles}`)
+              console.log(`REP MAX: ${repMax}`)
+              console.log(`REP MAXES ARRAY: ${repMaxes}`)
             }
           }
+        }
+
+        // if(last5Angles.length < 5) {
+
+        //   last5Angles.push(angle)
+        // }
+        // else {
+        //   last5Angles.unshift(angle)
+        //   last5Angles.pop()
+  
+        //   let sum = last5Angles.reduce((a, b) => a + b, 0);
+        //   averageAngle = sum / last5Angles.length
+  
+        //   console.log(averageAngle)
+          
+        //   if(last3AverageAngles.length < 3){
+        //     last3AverageAngles.push(averageAngle)
+        //   }
+        //   else {
+        //     last3AverageAngles.unshift(averageAngle)
+        //     last3AverageAngles.pop()
+        //     if(last3AverageAngles[0] > 45 &&
+        //        last3AverageAngles[1] > 45 &&
+        //        last3AverageAngles[2] > 45) {
+        //          if(!aboveThreshold){
+        //            aboveThreshold = true
+        //            halfReps += 1
+        //          }
+        //        }
+        //     if(last3AverageAngles[0] < 45 &&
+        //     last3AverageAngles[1] < 45 &&
+        //     last3AverageAngles[2] < 45) {
+        //       if(aboveThreshold){
+        //         aboveThreshold = false
+        //         halfReps += 1
+        //       }
+        //     }
+  
+        //     prevFullReps = fullReps
+        //     fullReps = Math.floor(halfReps / 2)
+  
+        //     if(fullReps > prevFullReps) {
+        //       props.updateReps()
+        //     }
+  
+        //     newMaxAngle = Math.max.apply(Math, last3AverageAngles)
+        //     if(newMaxAngle > maxAngle){
+        //       maxAngle = newMaxAngle
+        //     }
+        //     console.log(`max angle IMU: ${maxAngle}`)
+          
+        //     }
+        //   }
         //IMUToData(angle)//to be compared with CV angle and/or then used in rep counting or try angle.onchange ??? 
       })
-    }, 500)
+    }, 200)
   }
 
   return (
@@ -133,7 +172,7 @@ function BluetoothSetup(props) {
       <div style={styles.button} onClick={handleClick}>
         {
           isConnected ? 
-          <div>Connected to sensor</div> :
+          <div>☑️ Connected to sensor</div> :
           <div>Connect to sensor</div>
         }
       </div>
