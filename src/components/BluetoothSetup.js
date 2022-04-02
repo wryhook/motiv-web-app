@@ -1,4 +1,6 @@
-function BluetoothSetup({ updateReps }) {
+import { useState } from "react"
+
+function BluetoothSetup(props) {
   let last5Angles = []
   let averageAngle
   let last3AverageAngles = []
@@ -8,6 +10,27 @@ function BluetoothSetup({ updateReps }) {
   let fullReps = 0
   let newMaxAngle = 0
   let maxAngle = 0
+  
+  const [isConnected, setIsConnected] = useState(false)
+
+  const styles = {
+    button: {
+        backgroundColor: isConnected ? '#27AE60' : '#5693B6',
+        color: '#ffffff',
+        padding: '0.5rem',
+        paddingRight: '1.5rem',
+        paddingLeft: '1.5rem',
+        borderRadius: 20,
+        border: '1px solid #4f4f4f',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1.25rem',
+        fontWeight: '600',
+        cursor: 'pointer',
+        margin: '1rem'
+      }
+  } 
 
   function handleClick() {
     console.log("HandleClick ran")
@@ -31,6 +54,8 @@ function BluetoothSetup({ updateReps }) {
   }
 
   function handleCharacteristic(characteristic) {
+    setIsConnected(true)
+    props.setBluetoothStatusTrue()
     setInterval(() => {
       //console.log("handleChar ran")
       
@@ -44,7 +69,11 @@ function BluetoothSetup({ updateReps }) {
             angle = angle - 255; 
         } */
 
-        if(last5Angles.length < 5) {//change to accept positive or negative angles
+
+        props.updateAngle(angle)
+
+        if(last5Angles.length < 5) {
+
           last5Angles.push(angle)
         }
         else {
@@ -83,7 +112,7 @@ function BluetoothSetup({ updateReps }) {
             fullReps = Math.floor(halfReps / 2)
   
             if(fullReps > prevFullReps) {
-              updateReps()
+              props.updateReps()
             }
   
             newMaxAngle = Math.max.apply(Math, last3AverageAngles)
@@ -101,27 +130,15 @@ function BluetoothSetup({ updateReps }) {
 
   return (
     <div>
-      <div style={styles.button} onClick={handleClick}>Connect to Bluetooth</div>
+      <div style={styles.button} onClick={handleClick}>
+        {
+          isConnected ? 
+          <div>Connected to sensor</div> :
+          <div>Connect to sensor</div>
+        }
+      </div>
     </div>
   );
 }
 
 export default BluetoothSetup;
-
-const styles = {
-    button: {
-        height: '3rem',
-        width: '16rem',
-        backgroundColor: '#a3dfff',
-        borderRadius: 20,
-        border: '1px solid #4f4f4f',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#4f4f4f',
-        fontSize: '1.25rem',
-        fontWeight: '600',
-        cursor: 'pointer',
-        margin: '1rem'
-    }
-}

@@ -3,6 +3,8 @@ import PoseEstimation from "./components/PoseEstimation";
 import BluetoothSetup from "./components/BluetoothSetup";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ExerciseScreen from "./components/ExerciseScreen";
+import Tutorial from "./components/exercise-setup-screens/Tutorial";
+import CameraSetup from "./components/CameraSetup";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from 'firebase/firestore';
@@ -35,6 +37,8 @@ const db = getFirestore(app);
           <Route path="/bluetooth" element={<BluetoothSetup />} />
           <Route path="/webcam" element={<PoseEstimation />} />
           <Route path="/exercise" element={<ExerciseScreen />} />
+          <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="/camera-setup" element={<CameraSetup />} />
         </Routes>
       </div>
     </Router>

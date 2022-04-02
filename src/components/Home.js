@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import TodaysSessionCard from "./TodaysSessionCard";
+import { Link } from "react-router-dom";
 
 
 export default function Home() {
@@ -26,7 +27,9 @@ export default function Home() {
                 <Greeting>
                     Good Evening, <span style={{fontWeight: 600}}>IGEN 430</span>
                 </Greeting>
-                <TodaysSessionCard />
+                <Link to="/tutorial" style={{ textDecoration: 'none' }}>
+                    <TodaysSessionCard />
+                </Link>
             </Main>
         </Container>
     )
