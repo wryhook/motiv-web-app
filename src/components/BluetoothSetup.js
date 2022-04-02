@@ -53,7 +53,7 @@ function BluetoothSetup(props) {
     })
   }
 
-  function handleCharacteristic(characteristic) {
+  function handleCharacteristic(characteristic,state) {
     setIsConnected(true)
     props.setBluetoothStatusTrue()
     setInterval(() => {
@@ -68,7 +68,21 @@ function BluetoothSetup(props) {
        /*  if(angle > 255/2){  //getting signed angles from unsigned int value
             angle = angle - 255; 
         } */
-
+        
+        //states
+        //LR - left leg seated raise
+        //RR - right leg seated raise
+        //LC - left leg hamstring curl
+        //RC - right leg hamstring curl
+        // if(state=='LR') {
+        //   ;
+        // }
+        // if(state=='RC') {
+        //   ;
+        // }
+        if(state=='RR' || state=='LC') {
+          angle = angle*(-1);
+        }
 
         props.updateAngle(angle)
         console.log('Angle: ', angle)

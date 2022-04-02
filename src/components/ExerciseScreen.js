@@ -6,6 +6,7 @@ import BluetoothSetup from "./BluetoothSetup"
 import PairingInstructions from "./PairingInstructions"
 import AngleVisualizer from "./AngleVisualizer"
 import Webcam from 'react-webcam';
+import { Link } from "react-router-dom"
 
 export default function ExerciseScreen() {
     const [cameraAngle, setCameraAngle] = useState(0)
@@ -55,6 +56,9 @@ export default function ExerciseScreen() {
                     Waiting to connect to motiv sensor...
                 </div>
             }
+            <Link to="/tutorial">
+                tutorial
+            </Link>
         </div>
     )
 }
