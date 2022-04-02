@@ -7,20 +7,22 @@ import '@tensorflow/tfjs-backend-webgl';
 // import '@tensorflow/tfjs-backend-wasm';
 // import * as mpPose from '@mediapipe/pose';
 import Webcam from 'react-webcam';
+import { Link } from 'react-router-dom';
 
-const PoseEstimation = React.memo(({ updateReps }) => {
-  let last5Angles = []
-  let averageAngle
-  let last3AverageAngles = []
-  let aboveThreshold = false
-  let halfReps = 0
-  let prevFullReps = 0
-  let fullReps = 0
-  let newMaxAngle = 0
-  let maxAngle = 0
+const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePosition }) => {
+  // const THRESHOLD = 20
+  // let last5Angles = []
+  // let averageAngle
+  // let last3AverageAngles = []
+  // let aboveThreshold = false
+  // let repAngles = []
+  // let reps = 0
+  // let repMaxes = []
+  // let newMaxAngle = 0
+  // let maxAngle = 0
   const webcamRef = useRef(null)
 
-  let leftLegAngle, rightLegAngle
+  // let leftLegAngle, rightLegAngle
   //const [angle, setAngle] = useState(0)
 
   //  Load posenet
@@ -29,12 +31,10 @@ const PoseEstimation = React.memo(({ updateReps }) => {
     const model = poseDetection.SupportedModels.MoveNet
     const detector = await poseDetection.createDetector(model, detectorConfig);
 
-    setInterval(() => {
-      detect(detector);
-      //console.log(totalAngleDegrees)
-        
-      //   console.log(totalAngleDegrees)
-    }, 100);
+      setInterval(() => {
+        console.log("pose estimation running")
+        detect(detector);
+      }, 500);
 
   };
 
@@ -55,89 +55,94 @@ const PoseEstimation = React.memo(({ updateReps }) => {
 
       // Make Detections
       const poses = await detector.estimatePoses(video);
-      
-      // Calculate leg angle
-      //let leftangle1 = Math.atan((poses[0].keypoints[14].y - poses[0].keypoints[12].y) / (poses[0].keypoints[12].x - poses[0].keypoints[14].x))
-      let rightAngleRaw = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
-      rightLegAngle = 90 - Math.abs(Math.floor(180 * (rightAngleRaw)/Math.PI))
-      updateReps(rightLegAngle)
 
+      console.log(poses[0])
 
-      // let rightangle1 = Math.atan((poses[0].keypoints[13].y - poses[0].keypoints[11].y) / (poses[0].keypoints[13].x - poses[0].keypoints[11].x))
-      // let rightangle2 = Math.atan((poses[0].keypoints[15].y - poses[0].keypoints[13].y) / (poses[0].keypoints[13].x - poses[0].keypoints[15].x))
-      // rightLegAngle = Math.floor(180 * (rightangle1 + rightangle2)/Math.PI)
-      
-      // console.log(`Right leg angle: ${rightLegAngle}`)
-      //console.log(`Right leg angle: ${rightLegAngle}`)
-      // if(totalAngleDegrees < 0) {
-      //   totalAngleDegrees = 180 + totalAngleDegrees
+      let pose = poses[0]
+
+      // if (
+      //   pose.keypoints[16].score > 0.4 && 
+      //   pose.keypoints[14].score > 0.4
+      // ) {
+      //   updatePosition()
       // }
+      
+      // let rightAngleRaw = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
+      // rightLegAngle = 90 - Math.abs(Math.floor(180 * (rightAngleRaw)/Math.PI))
 
-      if(last5Angles.length < 5) {
-        last5Angles.push(rightLegAngle)
-      }
-      else {
-        last5Angles.unshift(rightLegAngle)
-        last5Angles.pop()
+      // if(last5Angles.length < 5) {
+      //   last5Angles.push(rightLegAngle)
+      // }
+      // else {
+      //   last5Angles.unshift(rightLegAngle)
+      //   last5Angles.pop()
 
-        let sum = last5Angles.reduce((a, b) => a + b, 0);
-        averageAngle = sum / last5Angles.length
+      //   let sum = last5Angles.reduce((a, b) => a + b, 0);
+      //   averageAngle = sum / last5Angles.length
 
-        console.log(averageAngle)
+      //   console.log(averageAngle)
         
-        if(last3AverageAngles.length < 3){
-          last3AverageAngles.push(averageAngle)
-        }
-        else {
-          last3AverageAngles.unshift(averageAngle)
-          last3AverageAngles.pop()
-          if(last3AverageAngles[0] > 45 &&
-             last3AverageAngles[1] > 45 &&
-             last3AverageAngles[2] > 45) {
-               if(!aboveThreshold){
-                 aboveThreshold = true
-                 halfReps += 1
-               }
-             }
-          if(last3AverageAngles[0] < 45 &&
-          last3AverageAngles[1] < 45 &&
-          last3AverageAngles[2] < 45) {
-            if(aboveThreshold){
-              aboveThreshold = false
-              halfReps += 1
-            }
-          }
+      //   if(last3AverageAngles.length < 3){
+      //     last3AverageAngles.push(averageAngle)
+      //   }
+      //   else {
+      //     last3AverageAngles.unshift(averageAngle)
+      //     last3AverageAngles.pop()
 
-          prevFullReps = fullReps
-          fullReps = Math.floor(halfReps / 2)
+      //     if(last3AverageAngles[0] > THRESHOLD &&
+      //       last3AverageAngles[1] > THRESHOLD &&
+      //       last3AverageAngles[2] > THRESHOLD) {
+      //       if(!aboveThreshold){
+      //         aboveThreshold = true
+      //         repAngles.length = 0
+      //       }
+      //     }
+          
+      //     if(aboveThreshold){
+      //       repAngles.push(averageAngle)
+      //     }
 
-          if(fullReps > prevFullReps) {
-            //updateReps()
-          }
+      //     if(last3AverageAngles[0] < THRESHOLD &&
+      //     last3AverageAngles[1] < THRESHOLD &&
+      //     last3AverageAngles[2] < THRESHOLD) {
+      //       if(aboveThreshold){
+      //         aboveThreshold = false
+      //         reps += 1
+      //         console.log(`REPS: ${reps}`)
+      //         updateReps()
+      //         let repMax = Math.max.apply(Math, repAngles)
+      //         repMaxes.push(repMax)
+      //         console.log(`ALL ANGLES RECORDED: ${repAngles}`)
+      //         console.log(`REP MAX: ${repMax}`)
+      //         console.log(`REP MAXES ARRAY: ${repMaxes}`)
+      //       }
+      //     }
 
-          newMaxAngle = Math.max.apply(Math, last3AverageAngles)
-          if(newMaxAngle > maxAngle){
-            maxAngle = newMaxAngle
-          }
-          console.log(`max angle Camera: ${maxAngle}`)
+      //     newMaxAngle = Math.max.apply(Math, last3AverageAngles)
+      //     if(newMaxAngle > maxAngle){
+      //       maxAngle = newMaxAngle
+      //     }
+      //     console.log(`max angle Camera: ${maxAngle}`)
         
-          }
-        }
+      //     }
+      //   }
     }
   };
 
-  runModel();
+  runModel()
 
   return (
-        <Webcam ref={webcamRef} style={styles.video} mirrored={true} />
+        <div>
+          <Webcam ref={webcamRef} style={styles.video} mirrored={true} />
+        </div>
   );
 })
 
 const styles = {
   video: {
     zindex: 9,
-    height: 480,
-    width: 852,
+    height: 360,
+    width: 640,
     borderRadius: 20,
     border: '2px solid #4f4f4f',
   }
