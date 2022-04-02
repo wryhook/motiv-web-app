@@ -35,7 +35,7 @@ function BluetoothSetup(props) {
   function handleClick() {
     console.log("HandleClick ran")
     navigator.bluetooth.requestDevice({ filters: [{ 
-      name: ['Motiv Sensor'] 
+      name: ['Motiv_Sensor_Master'] 
     }],
     optionalServices: ['4fafc201-1fb5-459e-8fcc-c5c9c331914b'] // Required to access service later.
     })
@@ -63,14 +63,17 @@ function BluetoothSetup(props) {
       .then(value => {
         //const [angle, setAngle] = useState(0)
         
-        let angle = value.getUint8(0); 
-        if(angle > 255/2){  //getting signed angles from unsigned int value
+        let angle = value.getInt8(0); 
+        
+       /*  if(angle > 255/2){  //getting signed angles from unsigned int value
             angle = angle - 255; 
-        }
+        } */
+
 
         props.updateAngle(angle)
 
         if(last5Angles.length < 5) {
+
           last5Angles.push(angle)
         }
         else {

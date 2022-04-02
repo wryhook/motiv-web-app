@@ -49,37 +49,37 @@ function plotChart(data,time,goal) {
                 }
             }
         }
-        })
-};
+        });
+}
 
 /* get the time array and data array to be graphed -- called before getThreshold */
 function getData(time,maximas) {
-    var dt = time/(2*maximas)
-    var time = new Array(2*maximas)
-    var data = new Array(2*maximas)
+    var dt = time/(2*maximas.length);
+    var time_ = new Array(2*maximas.length);
+    var data = new Array(2*maximas.length);
 
-    var c
+    var c=0;
     for (var i=0;i<data.length;++i) {
         if (i==0) {
-            data[i]=0
+            data[i]=0;
         }
         else {
-            data[i]=maximas[c]
-            c++
+            data[i]=maximas[c];
+            c++;
         }
     }
 
-    time.forEach(function(part,index){
-        this[index]=index*dt
+    time_.forEach(function(part,index){
+        this[index]=index*dt;
     })
-    return [data,time]
+    return [data,time];
 }
 
 /* get the array of len L to draw straight line at threshold angle for graph */
 function getThreshold(time,goal) {
-    var thres = new Array(time.length)
+    var thres = new Array(time.length);
     for (var i=0;i<thres.length;++i) {
-        thres[i] = goal
+        thres[i] = goal;
     }
     return thres
 }
