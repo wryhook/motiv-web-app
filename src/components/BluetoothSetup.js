@@ -71,10 +71,9 @@ function BluetoothSetup(props) {
 
 
         props.updateAngle(angle)
-
+        console.log('Angle: ', angle)
         
-        
-        if(last3Angles.length < 3){
+        if(last3Angles.length < 3){ //for rep counting, incorporate negative angles (signed angles)
           last3Angles.push(angle)
         }
         else {

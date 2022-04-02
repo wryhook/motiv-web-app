@@ -26,8 +26,8 @@ export default function ExerciseScreen() {
         setCameraAngle(cameraAngle)
     }, [setCameraAngle])
 
-    const incrementBluetoothReps = useCallback(() => {
-        setBluetoothReps(prevReps => prevReps + 1)
+    const incrementBluetoothReps = useCallback((bluetoothReps) => {
+        setReps(prevReps => prevReps + 1)
     }, [setBluetoothReps])
 
 
@@ -37,7 +37,7 @@ export default function ExerciseScreen() {
                 isConnected ?
                 <div style={styles.displayItems}>
                     <div style={styles.repsDisplay}>
-                        {cameraAngle}
+                        {reps}
                     </div>
                     
                 </div> :
