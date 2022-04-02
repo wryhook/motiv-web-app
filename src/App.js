@@ -31,9 +31,9 @@ const db = getFirestore(app);
     <Router>
       <div style={styles.body}>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/bluetooth" element={<BluetoothSetup />} />
-          <Route path="/Webcam" element={<PoseEstimation />} />
+          <Route path="/webcam" element={<PoseEstimation />} />
           <Route path="/exercise" element={<ExerciseScreen />} />
         </Routes>
       </div>
