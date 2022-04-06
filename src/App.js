@@ -6,6 +6,7 @@ import ExerciseScreen from "./components/ExerciseScreen";
 import Tutorial from "./components/exercise-setup-screens/Tutorial";
 import CameraSetup from "./components/CameraSetup";
 import Welcome from "./components/exercise-setup-screens/Welcome";
+import CreateGraph from "./components/ReportCard";
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/camera-setup" element={<CameraSetup />} />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/reportcard" element={<CreateGraph />} />
         </Routes>
       </div>
     </Router>
