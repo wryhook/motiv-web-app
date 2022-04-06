@@ -7,6 +7,8 @@ import Tutorial from "./components/exercise-setup-screens/Tutorial";
 import CameraSetup from "./components/CameraSetup";
 import Welcome from "./components/exercise-setup-screens/Welcome";
 import CreateGraph from "./components/ReportCard";
+import History from "./components/previous-sessions/History";
+//import SessionHistory from "./components/previous-sessions/SessionHistory";
 
 export default function App() {
 
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="/exercise" element={<ExerciseScreen />} />
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/camera-setup" element={<CameraSetup />} />
+          {/*  <Route path="/session-history" element={<SessionHistory />} /> */}
+          <Route path="/history" element={<History />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/reportcard" element={<CreateGraph />} />
         </Routes>

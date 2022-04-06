@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import styled from "styled-components"
 import NextButton from "../shared/NextButton"
+import {db} from "../../firebase"
+import { setDoc, getDocs, doc, collection, query, where } from "firebase/firestore"
 
 const NameInput = styled.input`
     border: none;
@@ -81,6 +83,28 @@ export default function Welcome(props) {
         console.log(name)
         navigate("/select-exercise")
     }
+
+    //To put into new component:
+    let exists = false;
+    const userRef = collection(db, "users");
+
+    const q = query(userRef, where("name", "==", name))//if doesnt work, change database to sessions collection outside of user collection
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        exists = true;
+    });
+
+    //if name exists, write to next session in that user document
+    //if not exists, create new document w/ user's name and then create new session inside that
+    try {
+        const sessionRef = await setDoc(doc(db, "sessions", ), {
+            userName: name,
+        });
+        console.log("Document written w/ name", docRef.id);
+    } catch (e) {
+        console.error("Error adding/writing to document: ", e);
+    }       
+    //End
 
     return(
         <Container>
