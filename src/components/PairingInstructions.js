@@ -2,7 +2,7 @@ export default function PairingInstructions() {
     return(
         <div style={styles.container}>
             <ol>
-                <li>Turn on the motiv sensor and wait until ...</li>
+                <li>Strap the motiv device onto your ankle, with the device on the outside of your ankle.</li>
                 <li>Wait for this light to flash...</li>
                 <li>Click the button below to connect</li>
             </ol>
