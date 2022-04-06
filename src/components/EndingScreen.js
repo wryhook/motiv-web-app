@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import CreateGraph from "./ReportCard"
 
 const BodyContainer = styled.div`
     display: flex;
@@ -61,8 +62,6 @@ const SummaryStats = styled.div`
 `
 const ChartContainer = styled.div`
     width: 50rem;
-    height: 20rem;
-    background: grey;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5rem;
@@ -99,7 +98,7 @@ const HomeButton = styled.div`
 
 
 export default function EndingScreen() {
-    let repMaximas = [61, 60, 54, 58, 69, 70]
+    let repMaximas = [61, 60, 40, 58, 69, 70]
     let threshold = 50
     let name = "Abdullah"
     const [sReps, setSReps] = useState(0)
@@ -169,7 +168,7 @@ export default function EndingScreen() {
                 Here's how you did today, {name}
             </Title>
             <ChartContainer>
-                Chart goes here
+                <CreateGraph maximas={repMaximas} goal={threshold}/>
             </ChartContainer>
             <SummaryStats>
                 <RepsTitle>
