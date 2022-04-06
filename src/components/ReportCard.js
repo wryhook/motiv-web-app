@@ -118,39 +118,6 @@ export default function CreateGraph(maximas,goal) {
                 }
             }
         }
-<<<<<<< Updated upstream
-        });
-}
-
-/* get the time array and data array to be graphed -- called before getThreshold */
-function getData(time,maximas) {
-    var dt = time/(2*maximas.length);
-    var time_ = new Array(2*maximas.length);
-    var data = new Array(2*maximas.length);
-
-    var c=0;
-    for (var i=0;i<data.length;++i) {
-        if (i==0) {
-            data[i]=0;
-        }
-        else {
-            data[i]=maximas[c];
-            c++;
-        }
-    }
-
-    time_.forEach(function(part,index){
-        this[index]=index*dt;
-    })
-    return [data,time];
-}
-
-/* get the array of len L to draw straight line at threshold angle for graph */
-function getThreshold(time,goal) {
-    var thres = new Array(time.length);
-    for (var i=0;i<thres.length;++i) {
-        thres[i] = goal;
-=======
         )
     }, []);
 
@@ -159,7 +126,7 @@ function getThreshold(time,goal) {
             <h1>
                 Hello my name is Ryan
             </h1>
-            {/* <Line 
+            {/* /* <Line 
                 data={chartData}
                 options={chartConfig}
             /> */}
@@ -196,7 +163,6 @@ function getAngles(maximas) {
         else{ //if even equal 0
             sin[i] = 0;
         }
->>>>>>> Stashed changes
     }
     return sin;
 }

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ExerciseScreen from "./components/ExerciseScreen";
 import Tutorial from "./components/exercise-setup-screens/Tutorial";
 import CameraSetup from "./components/CameraSetup";
-import createGraph from "./components/ReportCard";
+import CreateGraph from "./components/ReportCard";
 
 export default function App() {
 
