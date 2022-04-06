@@ -9,7 +9,7 @@ import Webcam from 'react-webcam';
 import { Link } from "react-router-dom"
 
 export default function ExerciseScreen() {
-    const [cameraAngle, setCameraAngle] = useState(0)
+    const [angle, setAngle] = useState(0)
     const [bluetoothReps, setBluetoothReps] = useState(0)
     const [reps, setReps] = useState(0)
     const [isConnected, setIsConnected] = useState(true)
@@ -23,9 +23,9 @@ export default function ExerciseScreen() {
         setReps(prevReps => prevReps + 1)
     }, [setReps])
 
-    const updateCameraAngle = useCallback((cameraAngle) => {
-        setCameraAngle(cameraAngle)
-    }, [setCameraAngle])
+    const updateAngle = useCallback((recievedAngle) => {
+        setAngle(recievedAngle)
+    }, [setAngle])
 
     const incrementBluetoothReps = useCallback((bluetoothReps) => {
         setReps(prevReps => prevReps + 1)
@@ -47,9 +47,10 @@ export default function ExerciseScreen() {
             <BluetoothSetup 
                 updateReps={incrementBluetoothReps}
                 setBluetoothStatusTrue={setBluetoothStatusTrue}
-                updateAngle={updateCameraAngle}
+                updateAngle={updateAngle}
+                flipAngle={false}
             />
-            <AngleVisualizer />
+            <AngleVisualizer angle={35}/>
             {
                 isConnected ?
                 <Webcam style={styles.video} mirrored={true} /> :

@@ -1,27 +1,31 @@
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 const AngleVisualizer = React.memo((props) => {
-    const [isFilledArray, setIsFilledArray] = useState([true, true, true, false, false])
+    const [isFilledArray, setIsFilledArray] = useState([false, false, false, false, false])
     
-    if (props.angle > 20){
-        setIsFilledArray([true, false, false, false, false])
-    }
-    if (props.angle > 30){
-        setIsFilledArray([true, true, false, false, false])
-    }
-    if (props.angle > 40){
-        setIsFilledArray([true, true, true, false, false])
-    }
-    if (props.angle > 50){
-        setIsFilledArray([true, true, true, true, false])
-    }
-    if (props.angle > 60){
-        setIsFilledArray([true, true, true, true, true])
-    }
+    useEffect(() => {
+        if (props.angle > 20){
+            setIsFilledArray([true, false, false, false, false])
+        }
+        if (props.angle > 30){
+            setIsFilledArray([true, true, false, false, false])
+        }
+        if (props.angle > 40){
+            setIsFilledArray([true, true, true, false, false])
+        }
+        if (props.angle > 50){
+            setIsFilledArray([true, true, true, true, false])
+        }
+        if (props.angle > 60){
+            setIsFilledArray([true, true, true, true, true])
+        }
+    }, [props.angle])
 
     const container = {
         display: 'flex',
+        marginTop: '1rem',
+        marginBottom: '2rem',
     }
 
     function MiddleBlock(props) {

@@ -80,7 +80,7 @@ function BluetoothSetup(props) {
         // if(state=='RC') {
         //   ;
         // }
-        if(state=='RR' || state=='LC') {
+        if(props.flipAngle) {
           angle = angle*(-1);
         }
 
