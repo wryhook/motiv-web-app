@@ -1,10 +1,11 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import PoseEstimation from "./components/PoseEstimation";
 import BluetoothSetup from "./components/BluetoothSetup";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ExerciseScreen from "./components/ExerciseScreen";
 import Tutorial from "./components/exercise-setup-screens/Tutorial";
 import CameraSetup from "./components/CameraSetup";
+import Welcome from "./components/exercise-setup-screens/Welcome";
 import CreateGraph from "./components/ReportCard";
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/exercise" element={<ExerciseScreen />} />
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/camera-setup" element={<CameraSetup />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/reportcard" element={<CreateGraph />} />
         </Routes>
       </div>

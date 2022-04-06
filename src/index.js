@@ -3,10 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from "./components/Home";
+import PoseEstimation from "./components/PoseEstimation";
+import BluetoothSetup from "./components/BluetoothSetup";
+import ExerciseScreen from "./components/ExerciseScreen";
+import Tutorial from "./components/exercise-setup-screens/Tutorial";
+import CameraSetup from "./components/CameraSetup";
+import Welcome from "./components/exercise-setup-screens/Welcome";
+import SelectExercise from './components/exercise-setup-screens/SelectExercise';
+import ExerciseSetup from './components/ExerciseSetup';
+import ConfigureLeg from './components/exercise-setup-screens/ConfigureExercise';
+import ConfigureReps from './components/exercise-setup-screens/ConfigureReps';
+import EndingScreen from './components/EndingScreen';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ExerciseSetup />} />
+        <Route path="/bluetooth" element={<BluetoothSetup />} />
+        <Route path="/webcam" element={<PoseEstimation />} />
+        <Route path="/exercise" element={<ExerciseScreen />} />
+        <Route path="/tutorial" element={<Tutorial />} />
+        <Route path="/camera-setup" element={<CameraSetup />} />
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/select-exercise" element={<SelectExercise />} />
+        <Route path="/configure-exercise" element={<ConfigureLeg />} />
+        <Route path="/configure-reps" element={<ConfigureReps />} />
+        <Route path="/home-screen" element={<Home />} />
+        <Route path="/ending-screen" element={<EndingScreen />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

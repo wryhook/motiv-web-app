@@ -12,7 +12,6 @@ export default function NextButton(props) {
         border-radius: 2rem;
         width: fit-content;
         font-weight: 400;
-        margin: auto;
         margin-top: 1rem;
 
         &:hover {
