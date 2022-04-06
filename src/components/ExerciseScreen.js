@@ -12,7 +12,7 @@ export default function ExerciseScreen() {
     const [cameraAngle, setCameraAngle] = useState(0)
     const [bluetoothReps, setBluetoothReps] = useState(0)
     const [reps, setReps] = useState(0)
-    const [isConnected, setIsConnected] = useState(false)
+    const [isConnected, setIsConnected] = useState(true)
 
 
     const setBluetoothStatusTrue = () => {
@@ -49,6 +49,7 @@ export default function ExerciseScreen() {
                 setBluetoothStatusTrue={setBluetoothStatusTrue}
                 updateAngle={updateCameraAngle}
             />
+            <AngleVisualizer />
             {
                 isConnected ?
                 <Webcam style={styles.video} mirrored={true} /> :
@@ -56,9 +57,6 @@ export default function ExerciseScreen() {
                     Waiting to connect to motiv sensor...
                 </div>
             }
-            <Link to="/tutorial">
-                tutorial
-            </Link>
         </div>
     )
 }

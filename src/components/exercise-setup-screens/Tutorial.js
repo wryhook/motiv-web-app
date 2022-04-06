@@ -2,18 +2,22 @@ import styled from "styled-components"
 import ReactPlayer from "react-player/youtube"
 import { Link } from "react-router-dom"
 import NextButton from "../shared/NextButton"
-import { useEffect } from "react/cjs/react.production.min"
 
 export default function Tutorial() {
 
     const Container = styled.div`
+        background-color: #d4f0ff;
         margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
     `
 
     const Text = styled.div`
         font-size: 2rem;
         color: #4f4f4f;
-        margin: auto;
         text-align: center;
         margin-bottom: 2rem;
     `
