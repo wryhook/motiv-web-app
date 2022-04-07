@@ -1,144 +1,92 @@
-import {Line} from 'react-chartjs-2'
-import { useState, useEffect } from 'react/cjs/react.production.min';
+// import {Line} from 'react-chartjs-2'
+// import 'chart.js'
 
-// /* setup for data */
-// const labels = getLabel(maximas); //want the labels from the helper function
-// const data = {
-//   labels: labels,
-//   datasets: [{
-//             data: getAngles(maximas), //want the angles from the helper function
-//             borderColor: "#3e95cd",
-//             fill: false,
-//             tension: 0.5,
-//             label: 'Range of Motion',
-//             fill: true
-//         },
-//         {
-//             data: getGoal(goal,maximas), //want the goals from the helper function
-//             borderColor: "#3e9cd",
-//             fill: false,
-//             tension: 0.5,
-//             label: 'Goal'
-//         }]
-// };
-// /* config of graph */
-// const config = {
-//     type: 'line',
-//     data: data,
-//     options: {
-//         scales: {
-//             x: {
-//                 title: {
-//                     display: true,
-//                     text: 'Repetitions (count)'
-//             },
-//                 ticks: {
-//                 // For a category axis, the val is the index so the lookup via getLabelForValue is needed
-//                 callback: function(val, index) {
-//                     // Hide every 2nd tick label
-//                     return index % 2 === 0 ? this.getLabelForValue(val) : '';
-//                     }
-//                 }
-//             },
-//             y: {
-//                 title: {
-//                     display: true,
-//                     text: 'Angle (degrees)'
-//                 }
-//             }
-//         },
-//         plugins: {
-//             title: {
-//                 display: true,
-//                 text: 'Range of Motion',
-//                 padding: {
-//                     top: 10,
-//                     bottom: 30
-//                 }
-//             }
-//         }
-//     }
-// };
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
-export default function CreateGraph(maximas,goal) {
-    const [chartData, setChartData] = useState({});
-    const [chartConfig,setChartConfig] = useState({});
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-    useEffect(() => {
-        setChartData(
-        {
-            labels: getLabel(maximas),
-            datasets: [{
-                        data: getAngles(maximas), //want the angles from the helper function
-                        borderColor: "#3e95cd",
-                        tension: 0.5,
-                        label: 'Range of Motion',
-                        fill: true
-                    },
-                    {
-                        data: getGoal(goal,maximas), //want the goals from the helper function
-                        borderColor: "#3e9cd",
-                        fill: false,
-                        tension: 0.5,
-                        label: 'Goal'
-                    }]
-            }
-        )
-        setChartConfig(
-        {
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Repetitions (count)'
+
+export default function CreateGraph({ maximas, goal }) {
+    const labels = getLabel(maximas);
+
+const data = {
+    labels: labels,
+    datasets: [{
+                data: getAngles(maximas), //want the angles from the helper function
+                borderColor: "#3e95cd",
+                tension: 0.5,
+                label: 'Range of Motion',
+                fill: true
                 },
-                    ticks: {
-                    // For a category axis, the val is the index so the lookup via getLabelForValue is needed
-                    callback: function(val, index) {
-                        // Hide every 2nd tick label
-                        return index % 2 === 0 ? this.getLabelForValue(val) : '';
-                        }
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Angle (degrees)'
-                    }
-                }
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Range of Motion',
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
+            {
+                data: getGoal(goal,maximas), //want the goals from the helper function
+                borderColor: "#97d95f",
+                fill: false,
+                tension: 0.5,
+                label: 'Goal',
+                pointRadius: 0
+            }]
+};
+const options = {
+    plugins: {
+        legend: {
+            display: true,
+            labels: {
+                font: {
+                    size: 20,
+                    weight:'bold'
                 }
             }
         }
-        )
-    }, []);
-
-    return (
-        <div style={styles.container}>
-            <h1>
-                Hello my name is Ryan
-            </h1>
-            {/* /* <Line 
-                data={chartData}
-                options={chartConfig}
-            /> */}
-        </div>
-
-    )
+    },
+    scales: {
+        x: {
+            title: {
+                display: true,
+                text: 'Repetitions (count)'
+        },
+            ticks: {
+            // For a category axis, the val is the index so the lookup via getLabelForValue is needed
+            callback: function(val, index) {
+                // Hide every 2nd tick label
+                return index % 2 !== 0 ? this.getLabelForValue(val) : '';
+                }
+            }
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Angle (degrees)'
+            }
+        }
+    }
+};
+  return <Line options={options} data={data} />;
 }
 
 /* function to return the number of reps */
 function getLabel(maximas) {
-    let time = new Array(2*maximas.length);
-    let c = 0;
+    let time = new Array(2*maximas.length+1);
+    let c = 1;
     for (let i=0;i<time.length;i++) {
         if (i%2==0) {
             time[i] = 0;
@@ -153,7 +101,7 @@ function getLabel(maximas) {
 
 /* function to return the change in angle */
 function getAngles(maximas) {
-    let sin = new Array(2*maximas.length);
+    let sin = new Array(2*maximas.length+1);
     let c = 0;
     for(let i=0;i<sin.length;i++) {
         if (i%2!=0) { //if odd then equal to maxima
@@ -169,18 +117,5 @@ function getAngles(maximas) {
 
 /* function to return the straight line threshold */
 function getGoal(goal,maximas) {
-    return new Array(2*maximas.length).fill(goal);
+    return new Array(2*maximas.length+1).fill(goal);
 }
-
-const styles = {
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        width: '100vw',
-    },
-    repsDisplay: {
-        fontSize: '4rem'
-    }
-  }
