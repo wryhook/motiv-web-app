@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "../firebase"
 
 const BodyContainer = styled.div`
     display: flex;
@@ -100,7 +102,7 @@ const HomeButton = styled.div`
 
 export default function EndingScreen() {
     let repMaximas = [61, 60, 54, 58, 69, 70]
-    let threshold = 50
+    let threshold = 50 
     let name = "Abdullah"
     const [sReps, setSReps] = useState(0)
     const [uReps, setUReps] = useState(0)
@@ -125,7 +127,41 @@ export default function EndingScreen() {
     //     setFailing(true)
     // }
 
+    const getData = async() => {
+        
+        //var docRef = db.collection('sessions').doc('Session 1');
+        
+        
+        /* getDoc(docRef)
+            .then(doc => console.log(doc)) */
+
+        //docRef.get().then((doc) => {
+        const docRef = doc(db, "sessions", "Session 1");
+        const docSnap = await getDoc(docRef);
+        console.log(threshold)
+
+            if (docSnap.exists()) {
+                console.log("Threshold:", docSnap.data("userThreshold"));
+                //display session data in html components (each session must have same data format)
+                threshold = docSnap.get('userThreshold')
+                console.log(threshold)
+
+                } else {
+                console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
+            }
+        }
+
+
+
     useEffect(() => {
+        console.log("use effect 1")
+            getData()
+        
+    }, [])
+
+    useEffect(() => {
+        console.log("use effect 2")
+        
         let s = 0
         let u = 0
         let average = repMaximas.reduce((a, b) => a + b, 0)
