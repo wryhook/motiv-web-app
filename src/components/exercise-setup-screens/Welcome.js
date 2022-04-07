@@ -81,7 +81,7 @@ export default function Welcome(props) {
 
     function handleClick() {
         console.log(name)
-
+        setData();
         navigate("/select-exercise")
     }
     
@@ -96,9 +96,6 @@ export default function Welcome(props) {
         }
     }
 
-    useEffect(() => {
-        setData();
-    });
     //To put into new component:
 
     /* useEffect(() => {

@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styled from "styled-components"
 import ExerciseCard from "../ExerciseCard"
 import { useNavigate } from "react-router-dom"
 import ConfigureLeg from "./ConfigureExercise"
 import ConfigureReps from "./ConfigureReps"
 import ConfigureTarget from "./ConfigureTarget"
+import {db} from "../../firebase"
+import { getDoc, setDoc, doc, runTransaction } from "firebase/firestore"
+import { setDeprecationWarningFn } from "@tensorflow/tfjs-core/dist/tensor"
 
 const Container = styled.div`
     margin: auto;
@@ -60,13 +63,13 @@ export default function SelectExercise(props) {
     const [leg, setLeg] = useState("")
     const [exercise, setExercise] = useState("")
     const [targetReps, setTargetReps] = useState(5)
-    
-    const [targetAngle, setTargetAngle] = useState(50)
+    const [threshold, setTargetAngle] = useState(50)
+    const [name, getName] = useState("")
 
     let navigate = useNavigate()
-    console.log(targetAngle)
+    console.log(threshold)
     
-    let name = 'User'
+    //let name = 'User'
     if(props.name){
         name = props.name
     }
@@ -76,11 +79,47 @@ export default function SelectExercise(props) {
         console.log(`Leg: {leg}`)
         console.log(`Reps: ${targetReps}`)
         
+        setData();
+
         if(exercise == "HC"){
             navigate("/tutorial")
         }
     }
 
+    const getData = async() => {
+       
+        const docRef = doc(db, "sessions", "Session 1");  
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Name:", docSnap.data("userName"));
+            //display session data in html components (each session must have same data format)
+            
+            getName(docSnap.get('userName'))
+
+            }  
+        else {
+            console.log("How bro!"); // doc.data() will be undefined in this case
+        }
+    }
+
+    const setData = async() => {
+        try {
+            const sessionRef = await setDoc(doc(db, "sessions", "Session 1"), {
+                leg: leg,
+                exercise: exercise,
+                targetReps: targetReps,
+                userThreshold: threshold
+            }, {merge: true});
+            console.log("Document written w/ name: ", sessionRef.id);
+        } catch (e) {
+            console.error("Error adding/writing to document: ", e);
+        }
+    }
+
+    useEffect(() => {//might not need to be here
+        getData();
+    });   
 
     return(
         <Container>
@@ -105,7 +144,7 @@ export default function SelectExercise(props) {
                 updateReps={reps => setTargetReps(reps)}
             />
             <ConfigureTarget 
-                target={targetAngle}
+                target={threshold}
                 updateTarget={target => setTargetAngle(target)}
             />
             <StartButton onClick={navigateToTutorial}>

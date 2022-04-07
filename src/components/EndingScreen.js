@@ -127,15 +127,12 @@ export default function EndingScreen() {
     //     setFailing(true)
     // }
 
-    const getData = async() => {
-        
-        //var docRef = db.collection('sessions').doc('Session 1');
-        
-        
+     //var docRef = db.collection('sessions').doc('Session 1');
         /* getDoc(docRef)
             .then(doc => console.log(doc)) */
-
         //docRef.get().then((doc) => {
+    const getData = async() => {
+       
         const docRef = doc(db, "sessions", "Session 1");  
         const docSnap = await getDoc(docRef);
 
