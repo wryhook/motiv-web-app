@@ -138,9 +138,11 @@ export default function Welcome(props) {
             <StartButton onClick={handleClick}>
                 Get Started
             </StartButton>
-            <SessionHistory>
-                Past Sessions
-            </SessionHistory>
+            <Link to="/ending-screen" style={{textDecoration: 'none'}}>
+                <SessionHistory>
+                    View Last Session
+                </SessionHistory>
+            </Link>
         </Container>
     )
 }

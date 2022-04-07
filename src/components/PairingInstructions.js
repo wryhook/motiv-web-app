@@ -2,9 +2,10 @@ export default function PairingInstructions() {
     return(
         <div style={styles.container}>
             <ol>
-                <li>Strap the motiv device onto your ankle, with the device on the outside of your ankle.</li>
-                <li>Wait for this light to flash...</li>
-                <li>Click the button below to connect</li>
+                <li>Strap the motiv sensor onto your ankle, facing outwards.</li>
+                <li>Turn on the motiv sensor, and click connect to sensor.</li>
+                <li>Get into the camera's frame and <span style={{fontWeight: 600, textDecoration: "underline"}}>keep your leg straight </span>while the sensor calibrates.</li>
+                <li>Wait for 5 seconds, then start the exercise.</li>
             </ol>
         </div>
     )
@@ -12,6 +13,7 @@ export default function PairingInstructions() {
 
 const styles = {
     container: {
+        width: 800,
         borderRadius: 20,
         border: '1px solid #4f4f4f',
         background: '#d4f0ff',

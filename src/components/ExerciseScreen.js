@@ -40,6 +40,7 @@ export default function ExerciseScreen() {
     const [endSession, setEndSession] = useState(false)
     const [receivedThreshold, getThreshold] = useState(50) //need to get these
     const [targetReps, getTargetReps] = useState(6) //need to get these
+    const [shouldFlipAngle, setShouldFlipAngle] = useState(false)
 
     let navigate = useNavigate()
 
@@ -50,6 +51,12 @@ export default function ExerciseScreen() {
             //display session data in html components (each session must have same data format)
             getTargetReps(docSnap.get('targetReps'))
             getThreshold(docSnap.get('userThreshold'))
+            if (docSnap.get('leg')==='Right' && docSnap.get('exercise')==='HC'){
+                setShouldFlipAngle(true)
+            }
+            if (docSnap.get('leg')==='Left' && docSnap.get('exercise')==='KE'){
+                setShouldFlipAngle(true)
+            }
             } 
         else {
             console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
@@ -130,10 +137,13 @@ export default function ExerciseScreen() {
                 setBluetoothStatusTrue={setBluetoothStatusTrue}
                 updateAngle={updateAngle}
                 updateRepMaxes={updateRepMaxes}
-                flipAngle={false}
+                flipAngle={shouldFlipAngle}
                 threshold={receivedThreshold}
             />
-            <AngleVisualizer angle={angle} threshold={receivedThreshold}/>
+            {
+                isConnected &&
+                <AngleVisualizer angle={angle} threshold={receivedThreshold}/>
+            }
             {
                 isConnected ?
                 <Webcam style={styles.video} mirrored={true} /> :

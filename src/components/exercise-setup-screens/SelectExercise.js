@@ -80,10 +80,7 @@ export default function SelectExercise(props) {
         console.log(`Reps: ${targetReps}`)
         
         setData();
-
-        if(exercise == "HC"){
-            navigate("/tutorial")
-        }
+        navigate("/tutorial")
     }
 
     const getData = async() => {

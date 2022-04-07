@@ -137,7 +137,7 @@ export default function EndingScreen() {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Threshold:", docSnap.data("userThreshold"));
+            //console.log("Threshold:", docSnap.data("userThreshold"));
             //display session data in html components (each session must have same data format)
             setThreshold(docSnap.get('userThreshold'))
             setMaximas(docSnap.get('maxAnglesIMU'))
@@ -157,7 +157,7 @@ export default function EndingScreen() {
     useEffect(() => {
         //console.log("use effect 2")
         
-        console.log("use effect 1")
+        //console.log("use effect 1")
             getData()
 
         let s = 0
