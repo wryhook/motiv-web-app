@@ -16,6 +16,7 @@ import ExerciseSetup from './components/ExerciseSetup';
 import ConfigureLeg from './components/exercise-setup-screens/ConfigureExercise';
 import ConfigureReps from './components/exercise-setup-screens/ConfigureReps';
 import EndingScreen from './components/EndingScreen';
+import CreateGraph from './components/ReportCard';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="/configure-reps" element={<ConfigureReps />} />
         <Route path="/home-screen" element={<Home />} />
         <Route path="/ending-screen" element={<EndingScreen />} />
+        <Route path="/reportcard" element={<CreateGraph />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

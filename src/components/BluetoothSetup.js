@@ -2,6 +2,7 @@ import { useState } from "react"
 
 function BluetoothSetup(props) {
   const THRESHOLD = 15
+  const TARGET_THRESHOLD = props.threshold
   let last3Angles = []
   let aboveThreshold = false
   let repAngles = []
@@ -114,12 +115,15 @@ function BluetoothSetup(props) {
               aboveThreshold = false
               reps += 1
               console.log(`REPS: ${reps}`)
-              props.updateReps()
               let repMax = Math.max.apply(Math, repAngles)
+              if(repMax > TARGET_THRESHOLD){
+                props.updateReps()
+              }
               repMaxes.push(repMax)
               console.log(`ALL ANGLES RECORDED: ${repAngles}`)
               console.log(`REP MAX: ${repMax}`)
               console.log(`REP MAXES ARRAY: ${repMaxes}`)
+              props.updateRepMaxes(repMaxes)
             }
           }
         }

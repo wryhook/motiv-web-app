@@ -6,18 +6,61 @@ import BluetoothSetup from "./BluetoothSetup"
 import PairingInstructions from "./PairingInstructions"
 import AngleVisualizer from "./AngleVisualizer"
 import Webcam from 'react-webcam';
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+
+const StartButton = styled.button`
+        padding: 0.75rem;
+        padding-right: 1.75rem;
+        padding-left: 1.75rem;
+        font-size: 2rem;
+        background: #5693B6;
+        color: #ffffff;
+        border: 1px solid #4f4f4f;
+        border-radius: 2rem;
+        width: fit-content;
+        font-weight: 400;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        margin-top: 1rem;
+
+        &:hover {
+            cursor: pointer;
+            background: #7BB1CF;
+        }
+    `
 
 export default function ExerciseScreen() {
     const [angle, setAngle] = useState(0)
     const [bluetoothReps, setBluetoothReps] = useState(0)
     const [reps, setReps] = useState(0)
-    const [isConnected, setIsConnected] = useState(true)
+    const [isConnected, setIsConnected] = useState(false)
+    const [repMaxes, setRepMaxes] = useState([])
+    const [endSession, setEndSession] = useState(false)
 
+
+    let recievedThreshold = 50 //REMEMBER TO CHANGE THIS
+    let targetReps = 3
+
+    let navigate = useNavigate()
+
+    useEffect(() => {
+        if(reps >= targetReps){
+            setEndSession(true)
+        }
+    }, [reps])
+
+    function handleEndSession() {
+        console.log("ending session")
+        console.log(repMaxes)
+        navigate("/ending-screen")
+    }
 
     const setBluetoothStatusTrue = () => {
         setIsConnected(true)
     }
+
+    const updateRepMaxes = useCallback((repMaxes) => {
+        setRepMaxes(repMaxes)
+    }, [setAngle])
     
     const updateReps = useCallback(() => {
         setReps(prevReps => prevReps + 1)
@@ -35,6 +78,12 @@ export default function ExerciseScreen() {
     return (
         <div style={styles.container}>
             {
+                endSession &&
+                <StartButton onClick={handleEndSession}>
+                    End Session
+                </StartButton>
+            }
+            {
                 isConnected ?
                 <div style={styles.displayItems}>
                     <div style={styles.repsDisplay}>
@@ -48,9 +97,11 @@ export default function ExerciseScreen() {
                 updateReps={incrementBluetoothReps}
                 setBluetoothStatusTrue={setBluetoothStatusTrue}
                 updateAngle={updateAngle}
+                updateRepMaxes={updateRepMaxes}
                 flipAngle={false}
+                threshold={recievedThreshold}
             />
-            <AngleVisualizer angle={35}/>
+            <AngleVisualizer angle={angle} threshold={recievedThreshold}/>
             {
                 isConnected ?
                 <Webcam style={styles.video} mirrored={true} /> :

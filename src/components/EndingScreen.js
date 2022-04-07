@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "../firebase"
+import CreateGraph from "./ReportCard"
 
 const BodyContainer = styled.div`
     display: flex;
@@ -61,8 +64,6 @@ const SummaryStats = styled.div`
 `
 const ChartContainer = styled.div`
     width: 50rem;
-    height: 20rem;
-    background: grey;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5rem;
@@ -99,9 +100,10 @@ const HomeButton = styled.div`
 
 
 export default function EndingScreen() {
-    let repMaximas = [61, 60, 54, 58, 69, 70]
-    let threshold = 50
-    let name = "Abdullah"
+    const [threshold, setThreshold] = useState(50)
+    const [repMaximas, setMaximas] = useState([45,45,45,45,45])
+    const [name, setName] = useState('Abdullah')
+
     const [sReps, setSReps] = useState(0)
     const [uReps, setUReps] = useState(0)
     const [successRate, setSuccessRate] = useState(0)
@@ -125,7 +127,44 @@ export default function EndingScreen() {
     //     setFailing(true)
     // }
 
+    const getData = async() => {
+        
+        //var docRef = db.collection('sessions').doc('Session 1');
+        
+        
+        /* getDoc(docRef)
+            .then(doc => console.log(doc)) */
+
+        //docRef.get().then((doc) => {
+        const docRef = doc(db, "sessions", "Session 1");  
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("Threshold:", docSnap.data("userThreshold"));
+            //display session data in html components (each session must have same data format)
+            setThreshold(docSnap.get('userThreshold'))
+            setMaximas(docSnap.get('maxAngle_IMU'))
+            setName(docSnap.get('userName'))
+
+            } 
+        else {
+            console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
+        }
+    }
+
+
+
+   /*  useEffect(() => {
+        
+        
+    }, []) */
+
     useEffect(() => {
+        console.log("use effect 2")
+        
+        console.log("use effect 1")
+            getData()
+
         let s = 0
         let u = 0
         let average = repMaximas.reduce((a, b) => a + b, 0)
@@ -146,7 +185,7 @@ export default function EndingScreen() {
             setFailing(false)
             setOnTarget(false)
         }
-        else if(average < threshold - 10) {
+        else if(average < threshold - 10 || sr < 50) {
             setSucceeding(false)
             setFailing(true)
             setOnTarget(false)
@@ -160,7 +199,7 @@ export default function EndingScreen() {
         setSuccessRate(sr)
         setSReps(s)
         setUReps(u)
-    }, [])
+    }, [threshold])
 
     
     return(
@@ -169,7 +208,7 @@ export default function EndingScreen() {
                 Here's how you did today, {name}
             </Title>
             <ChartContainer>
-                Chart goes here
+                <CreateGraph maximas={repMaximas} goal={threshold}/>
             </ChartContainer>
             <SummaryStats>
                 <RepsTitle>
@@ -266,7 +305,7 @@ function Failing() {
             <Recommendation>
                 Recommendation
             </Recommendation>
-            Great job as always! Seemed like you struggled a little today. We recommend you talk to your physiotherapist about <span style={{fontWeight: 600}}>decreasingh your target by 10 degrees </span> 
+            Great job as always! Seemed like you struggled a little today. We recommend you talk to your physiotherapist about <span style={{fontWeight: 600}}>decreasing your target by 10 degrees </span> 
             until you're more comfortable at that level.
         </RecommendationContainer>
     )

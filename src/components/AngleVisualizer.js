@@ -2,22 +2,26 @@
 import React, { useState, useEffect } from "react"
 
 const AngleVisualizer = React.memo((props) => {
+    let THRESHOLD = props.threshold
     const [isFilledArray, setIsFilledArray] = useState([false, false, false, false, false])
-    
-    useEffect(() => {
-        if (props.angle > 20){
+    console.log("rendered")
+    useEffect(() => { //based on inputted threshold?
+        if (props.angle < 5){
+            setIsFilledArray([false, false, false, false, false])
+        }
+        if (props.angle > THRESHOLD * 0.25){
             setIsFilledArray([true, false, false, false, false])
         }
-        if (props.angle > 30){
+        if (props.angle > THRESHOLD * 0.5){
             setIsFilledArray([true, true, false, false, false])
         }
-        if (props.angle > 40){
+        if (props.angle > THRESHOLD * 0.75){
             setIsFilledArray([true, true, true, false, false])
         }
-        if (props.angle > 50){
+        if (props.angle > THRESHOLD){
             setIsFilledArray([true, true, true, true, false])
         }
-        if (props.angle > 60){
+        if (props.angle > THRESHOLD * 1.25){
             setIsFilledArray([true, true, true, true, true])
         }
     }, [props.angle])

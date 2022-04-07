@@ -1,6 +1,7 @@
-import { FirebaseError, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from 'firebase/firestore';
+import {getFirestore} from 'firebase/firestore';
+
 // Add SDKs for Firebase products that you want to use from https://firebase.google.com/docs/web/setup#available-libraries
 
 // Firebase configuration
@@ -16,7 +17,12 @@ const firebaseConfig = {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  //firebase.initializeApp(firebaseConfig);
+
   const analytics = getAnalytics(app);
+  //const db = firebase.firestore(); 
   const db = getFirestore(app); //Initialize Cloud Firestore
 
-  export default firebase;
+
+  //export default firebase;
+  export {db};
