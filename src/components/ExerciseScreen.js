@@ -7,6 +7,9 @@ import PairingInstructions from "./PairingInstructions"
 import AngleVisualizer from "./AngleVisualizer"
 import Webcam from 'react-webcam';
 import { useNavigate } from "react-router-dom"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "../firebase"
+import { setDoc, collection, query, where } from "firebase/firestore"
 
 const StartButton = styled.button`
         padding: 0.75rem;
@@ -35,17 +38,46 @@ export default function ExerciseScreen() {
     const [isConnected, setIsConnected] = useState(false)
     const [repMaxes, setRepMaxes] = useState([])
     const [endSession, setEndSession] = useState(false)
-
-
-    let recievedThreshold = 50 //REMEMBER TO CHANGE THIS
-    let targetReps = 3
+    const [receivedThreshold, getThreshold] = useState(50) //need to get these
+    const [targetReps, getTargetReps] = useState(6) //need to get these
 
     let navigate = useNavigate()
+
+    const getData = async() => {
+        const docRef = doc(db, "sessions", "Session 1");  
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            //display session data in html components (each session must have same data format)
+            getTargetReps(docSnap.get('targetReps'))
+            getThreshold(docSnap.get('userThreshold'))
+            } 
+        else {
+            console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
+        }
+    }
+    const setData = async() => {
+        try {
+            const sessionRef = await setDoc(doc(db, "sessions", "Session 1"), {
+                maxAnglesIMU: repMaxes,
+                }, 
+                {merge:true} 
+            );
+            console.log("Document written w/ maximas array: ", sessionRef.id);
+        } catch (e) {
+            console.error("Error adding/writing to document: ", e);
+        }
+    }
+    
+    useEffect(() => {
+        getData()
+    })
 
     useEffect(() => {
         if(reps >= targetReps){
             setEndSession(true)
+            setData()
         }
+
     }, [reps])
 
     function handleEndSession() {
@@ -99,9 +131,9 @@ export default function ExerciseScreen() {
                 updateAngle={updateAngle}
                 updateRepMaxes={updateRepMaxes}
                 flipAngle={false}
-                threshold={recievedThreshold}
+                threshold={receivedThreshold}
             />
-            <AngleVisualizer angle={angle} threshold={recievedThreshold}/>
+            <AngleVisualizer angle={angle} threshold={receivedThreshold}/>
             {
                 isConnected ?
                 <Webcam style={styles.video} mirrored={true} /> :
