@@ -101,9 +101,9 @@ const HomeButton = styled.div`
 
 export default function EndingScreen() {
     const [threshold, setThreshold] = useState(50)
-    
-    let repMaximas = [61, 60, 40, 58, 69, 70]
-    let name = "Abdullah"
+    const [repMaximas, setMaximas] = useState([45,45,45,45,45])
+    const [name, setName] = useState('Abdullah')
+
     const [sReps, setSReps] = useState(0)
     const [uReps, setUReps] = useState(0)
     const [successRate, setSuccessRate] = useState(0)
@@ -136,22 +136,21 @@ export default function EndingScreen() {
             .then(doc => console.log(doc)) */
 
         //docRef.get().then((doc) => {
-        const docRef = doc(db, "sessions", "Session 1");
-    
+        const docRef = doc(db, "sessions", "Session 1");  
         const docSnap = await getDoc(docRef);
 
-        console.log(threshold)
+        if (docSnap.exists()) {
+            console.log("Threshold:", docSnap.data("userThreshold"));
+            //display session data in html components (each session must have same data format)
+            setThreshold(docSnap.get('userThreshold'))
+            setMaximas(docSnap.get('maxAngle_IMU'))
+            setName(docSnap.get('userName'))
 
-            if (docSnap.exists()) {
-                console.log("Threshold:", docSnap.data("userThreshold"));
-                //display session data in html components (each session must have same data format)
-                setThreshold(docSnap.get('userThreshold'))
-                console.log(threshold)
-
-                } else {
-                console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
-            }
+            } 
+        else {
+            console.log("This session hasn't happened yet!"); // doc.data() will be undefined in this case
         }
+    }
 
 
 
