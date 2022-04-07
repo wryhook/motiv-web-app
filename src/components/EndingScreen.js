@@ -143,7 +143,7 @@ export default function EndingScreen() {
             console.log("Threshold:", docSnap.data("userThreshold"));
             //display session data in html components (each session must have same data format)
             setThreshold(docSnap.get('userThreshold'))
-            setMaximas(docSnap.get('maxAngle_IMU'))
+            setMaximas(docSnap.get('maxAnglesIMU'))
             setName(docSnap.get('userName'))
 
             } 
