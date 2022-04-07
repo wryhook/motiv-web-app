@@ -1,4 +1,4 @@
-import styled from "styled-components";
+/* import styled from "styled-components";
 import {db} from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 //Displays all previous sessions in cards on screen, clicking on card goes to  for that session calling values from databae
@@ -42,4 +42,4 @@ export default History;
 
 const styles = {
 icon: {height: 25, width: 25, color: "#4f4f4f"}
-}
+} */

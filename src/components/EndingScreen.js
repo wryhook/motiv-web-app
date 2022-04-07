@@ -100,8 +100,9 @@ const HomeButton = styled.div`
 
 
 export default function EndingScreen() {
+    const [threshold, setThreshold] = useState(50)
+    
     let repMaximas = [61, 60, 40, 58, 69, 70]
-    let threshold = 50
     let name = "Abdullah"
     const [sReps, setSReps] = useState(0)
     const [uReps, setUReps] = useState(0)
@@ -136,13 +137,15 @@ export default function EndingScreen() {
 
         //docRef.get().then((doc) => {
         const docRef = doc(db, "sessions", "Session 1");
+    
         const docSnap = await getDoc(docRef);
+
         console.log(threshold)
 
             if (docSnap.exists()) {
                 console.log("Threshold:", docSnap.data("userThreshold"));
                 //display session data in html components (each session must have same data format)
-                threshold = docSnap.get('userThreshold')
+                setThreshold(docSnap.get('userThreshold'))
                 console.log(threshold)
 
                 } else {
@@ -152,15 +155,17 @@ export default function EndingScreen() {
 
 
 
-    useEffect(() => {
-        console.log("use effect 1")
-            getData()
+   /*  useEffect(() => {
         
-    }, [])
+        
+    }, []) */
 
     useEffect(() => {
         console.log("use effect 2")
         
+        console.log("use effect 1")
+            getData()
+
         let s = 0
         let u = 0
         let average = repMaximas.reduce((a, b) => a + b, 0)
@@ -181,7 +186,7 @@ export default function EndingScreen() {
             setFailing(false)
             setOnTarget(false)
         }
-        else if(average < threshold - 10) {
+        else if(average < threshold - 10 || sr < 50) {
             setSucceeding(false)
             setFailing(true)
             setOnTarget(false)
@@ -195,7 +200,7 @@ export default function EndingScreen() {
         setSuccessRate(sr)
         setSReps(s)
         setUReps(u)
-    }, [])
+    }, [threshold])
 
     
     return(
@@ -301,7 +306,7 @@ function Failing() {
             <Recommendation>
                 Recommendation
             </Recommendation>
-            Great job as always! Seemed like you struggled a little today. We recommend you talk to your physiotherapist about <span style={{fontWeight: 600}}>decreasingh your target by 10 degrees </span> 
+            Great job as always! Seemed like you struggled a little today. We recommend you talk to your physiotherapist about <span style={{fontWeight: 600}}>decreasing your target by 10 degrees </span> 
             until you're more comfortable at that level.
         </RecommendationContainer>
     )
