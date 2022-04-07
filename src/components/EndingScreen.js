@@ -153,15 +153,13 @@ export default function EndingScreen() {
             }
         }
 
-
-
    /*  useEffect(() => {
         
         
     }, []) */
 
     useEffect(() => {
-        console.log("use effect 2")
+        //console.log("use effect 2")
         
         console.log("use effect 1")
             getData()

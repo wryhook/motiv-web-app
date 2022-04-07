@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import NextButton from "../shared/NextButton"
-//import {db} from "../../firebase"
-//import { setDoc, getDocs, doc, collection, query, where } from "firebase/firestore"
+import {db} from "../../firebase"
+import { setDoc, doc, collection, query, where } from "firebase/firestore"
 
 const NameInput = styled.input`
     border: none;
@@ -82,19 +82,23 @@ export default function Welcome(props) {
     function handleClick() {
         console.log(name)
 
-        /* try {
-            const sessionRef = await setDoc(doc(db, "sessions", ), {
+        navigate("/select-exercise")
+    }
+    
+    const setData = async() => {
+        try {
+            const sessionRef = await setDoc(doc(db, "sessions", "Session 1"), {
                 userName: name,
-                session
             });
-            console.log("Document written w/ name", docRef.id);
+            console.log("Document written w/ name: ", sessionRef.id);
         } catch (e) {
             console.error("Error adding/writing to document: ", e);
         }
- */
-        navigate("/select-exercise")
     }
 
+    useEffect(() => {
+        setData();
+    });
     //To put into new component:
 
     /* useEffect(() => {

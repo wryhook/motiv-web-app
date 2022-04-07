@@ -59,7 +59,7 @@ export default function SelectExercise(props) {
     const [leg, setLeg] = useState("")
     const [exercise, setExercise] = useState("")
     const [targetReps, setTargetReps] = useState(5)
-
+    
     let navigate = useNavigate()
     console.log(targetReps)
     
