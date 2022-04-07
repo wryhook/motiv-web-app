@@ -4,6 +4,7 @@ import ExerciseCard from "../ExerciseCard"
 import { useNavigate } from "react-router-dom"
 import ConfigureLeg from "./ConfigureExercise"
 import ConfigureReps from "./ConfigureReps"
+import ConfigureTarget from "./ConfigureTarget"
 
 const Container = styled.div`
     margin: auto;
@@ -60,8 +61,10 @@ export default function SelectExercise(props) {
     const [exercise, setExercise] = useState("")
     const [targetReps, setTargetReps] = useState(5)
     
+    const [targetAngle, setTargetAngle] = useState(50)
+
     let navigate = useNavigate()
-    console.log(targetReps)
+    console.log(targetAngle)
     
     let name = 'User'
     if(props.name){
@@ -100,6 +103,10 @@ export default function SelectExercise(props) {
             <ConfigureReps 
                 reps={targetReps}
                 updateReps={reps => setTargetReps(reps)}
+            />
+            <ConfigureTarget 
+                target={targetAngle}
+                updateTarget={target => setTargetAngle(target)}
             />
             <StartButton onClick={navigateToTutorial}>
                 Start Exercise

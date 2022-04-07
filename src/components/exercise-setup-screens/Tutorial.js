@@ -2,8 +2,21 @@ import styled from "styled-components"
 import ReactPlayer from "react-player/youtube"
 import { Link } from "react-router-dom"
 import NextButton from "../shared/NextButton"
+import { useEffect } from "react"
 
 export default function Tutorial() {
+    let exerciseName = "Standing Hamstring Curl"
+    let exerciseUrl = "https://www.youtube.com/watch?v=oWu8RxtWdGE"
+
+
+    useEffect(() => {
+        // exerciseName = ""
+
+        // if(exerciseName === "Seated Knee Extension"){
+        //     exerciseUrl = "https://www.youtube.com/watch?v=VuJZ6dqMf8M"
+        // }
+
+    }, [])
 
     const Container = styled.div`
         background-color: #d4f0ff;
@@ -23,8 +36,8 @@ export default function Tutorial() {
     `
 
     const VideoContainer = styled.div`
-        height: 480px;
-        width: 852px;
+        height: 400px;
+        width: 710px;
         background-color: #d4f0ff;
     `
     
@@ -32,11 +45,11 @@ export default function Tutorial() {
         <Container>
             <Text>
                 Next Exercise 
-                <div style={{fontSize: '3rem', fontWeight: 500}}>Standing Hamstring Curl</div>
+                <div style={{fontSize: '3rem', fontWeight: 500}}>{exerciseName}</div>
             </Text>
             <VideoContainer>
                 <ReactPlayer 
-                    url='https://www.youtube.com/watch?v=Fadu_1dGVbE'
+                    url={exerciseUrl}
                     width='100%'
                     height='100%' 
                     muted={true}
