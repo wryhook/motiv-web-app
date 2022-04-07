@@ -102,7 +102,7 @@ const HomeButton = styled.div`
 export default function EndingScreen() {
     const [threshold, setThreshold] = useState(50)
     const [repMaximas, setMaximas] = useState([45,45,45,45,45])
-    const [name, setName] = useState('Abdullah')
+    const [name, setName] = useState('Usher')
 
     const [sReps, setSReps] = useState(0)
     const [uReps, setUReps] = useState(0)
@@ -161,7 +161,7 @@ export default function EndingScreen() {
             getData()
 
         let s = 0
-        let u = 0
+        let u = 0   
         let average = repMaximas.reduce((a, b) => a + b, 0)
 
         for (let i=0; i < repMaximas.length; i++) {
@@ -194,7 +194,7 @@ export default function EndingScreen() {
         setSuccessRate(sr)
         setSReps(s)
         setUReps(u)
-    }, [threshold])
+    }, [repMaximas])
 
     
     return(

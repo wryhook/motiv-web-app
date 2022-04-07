@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 export default function Tutorial() {
     let exerciseName = "Standing Hamstring Curl"
-    let exerciseUrl = "https://www.youtube.com/watch?v=oWu8RxtWdGE"
+    let exerciseUrl = "https://youtu.be/oWu8RxtWdGE?t=5"
 
 
     useEffect(() => {
