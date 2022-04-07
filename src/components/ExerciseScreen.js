@@ -41,6 +41,9 @@ export default function ExerciseScreen() {
     const [receivedThreshold, getThreshold] = useState(50) //need to get these
     const [targetReps, getTargetReps] = useState(6) //need to get these
     const [shouldFlipAngle, setShouldFlipAngle] = useState(false)
+    const [userName, getUserName] = useState("")
+    const [leg, getLeg] = useState("")
+    const [exercise, getExercise] = useState("")
 
     let navigate = useNavigate()
 
@@ -51,6 +54,9 @@ export default function ExerciseScreen() {
             //display session data in html components (each session must have same data format)
             getTargetReps(docSnap.get('targetReps'))
             getThreshold(docSnap.get('userThreshold'))
+            getUserName(docSnap.get('userName'))
+            getLeg(docSnap.get('leg'))
+            getExercise(docSnap.get('exercise'))
             if (docSnap.get('leg')==='Right' && docSnap.get('exercise')==='HC'){
                 setShouldFlipAngle(true)
             }
@@ -179,12 +185,12 @@ const styles = {
     videoPlaceholder: {
         zindex: 9,
         height: 360,
-        width: 640,
+        width: 480,
         borderRadius: 20,
-        border: '1px solid #4f4f4f',
+        border: '2px solid #4f4f4f',
         background: '#e0e0e0',
         color: '#4f4f4f',
-        fontSize: '2rem',
+        fontSize: '1.5rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -192,9 +198,9 @@ const styles = {
       video: {
         zindex: 9,
         height: 360,
-        width: 640,
+        //width: 640,
         borderRadius: 20,
-        border: '2px solid #4f4f4f',
+        border: '1px solid #4f4f4f',
       },
     displayItems: {
         display: 'flex',
