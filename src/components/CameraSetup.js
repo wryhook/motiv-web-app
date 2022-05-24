@@ -11,10 +11,11 @@ const Body = styled.div`
     flex-direction: column;
     margin: auto;
     min-height: 100vh;
+    background-color: #d4f0ff;
 `
 
 export default function CameraSetup() {
-    const [inPosition, setInPosition] = useState(false)
+    const [inPosition, setInPosition] = useState(true)
 
 
     return (
