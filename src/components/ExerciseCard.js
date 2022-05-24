@@ -11,14 +11,14 @@ export default function ExerciseCard(props) {
     const Container = styled.div`
         border: 1px solid #4f4f4f;
         border-radius: 2rem;
-        background: ${props.selected ? "#27AE60" : "#5693B6"};
+        background: ${props.selected ? "#56b679" : "#5693B6"};
         color: #ffffff;
         margin-right: 1.5rem;
         margin-left: 1.5rem;
 
         &:hover {
             cursor: pointer;
-            background: ${props.selected ? "#27AE60" : "#7BB1CF"};
+            background: ${props.selected ? "#56b679" : "#7BB1CF"};
         }
     `
     

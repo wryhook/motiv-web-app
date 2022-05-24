@@ -50,7 +50,7 @@ export default function ConfigureLeg({leg, handleClickLeft, handleClickRight}) {
         padding-left: 0.5rem;
         font-size: 2rem;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        background: ${leg === "Left" ? "#27AE60" : "#5693B6"};
+        background: ${leg === "Left" ? "#56b679" : "#5693B6"};
         color: #ffffff;
         border: 1px solid #4f4f4f;
         border-radius: 2rem;
@@ -59,7 +59,7 @@ export default function ConfigureLeg({leg, handleClickLeft, handleClickRight}) {
 
         &:hover {
             cursor: pointer;
-            background: ${leg === "Left" ? "#27AE60" : "#7BB1CF"};
+            background: ${leg === "Left" ? "#56b679" : "#7BB1CF"};
         }
     `
     const RightLegButton = styled.button`
@@ -70,7 +70,7 @@ export default function ConfigureLeg({leg, handleClickLeft, handleClickRight}) {
         padding-left: 0.5rem;
         font-size: 2rem;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        background: ${leg === "Right" ? "#27AE60" : "#5693B6"};
+        background: ${leg === "Right" ? "#56b679" : "#5693B6"};
         color: #ffffff;
         border: 1px solid #4f4f4f;
         border-radius: 2rem;
@@ -79,7 +79,7 @@ export default function ConfigureLeg({leg, handleClickLeft, handleClickRight}) {
 
         &:hover {
             cursor: pointer;
-            background: ${leg === "Right" ? "#27AE60" : "#7BB1CF"};
+            background: ${leg === "Right" ? "#56b679" : "#7BB1CF"};
         }
     `
     

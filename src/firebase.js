@@ -6,14 +6,14 @@ import {getFirestore} from 'firebase/firestore';
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAj1Z19i28xURUyf1joRCl2B835g6i3Hjw",
-    authDomain: "innate-entry-331721.firebaseapp.com",
-    projectId: "innate-entry-331721",
-    storageBucket: "innate-entry-331721.appspot.com",
-    messagingSenderId: "332900074138",
-    appId: "1:332900074138:web:70853c8b121c5e093a1523",
-    measurementId: "G-KTM90EZDYC" //optional
-  };
+  apiKey: "AIzaSyCYIWrPFx9NkmP9A30BXxxSYI8AkUITZ2I",
+  authDomain: "motiv-5c37e.firebaseapp.com",
+  projectId: "motiv-5c37e",
+  storageBucket: "motiv-5c37e.appspot.com",
+  messagingSenderId: "178647446445",
+  appId: "1:178647446445:web:f8a04e3441c14c5be52724",
+  measurementId: "G-6LC7JVTVR0"
+};
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);

@@ -32,7 +32,7 @@ const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePositi
     const detector = await poseDetection.createDetector(model, detectorConfig);
 
       setInterval(() => {
-        console.log("pose estimation running")
+        console.log("pose estimation ran")
         detect(detector);
       }, 500);
 
