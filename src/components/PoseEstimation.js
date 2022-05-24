@@ -9,7 +9,7 @@ import '@tensorflow/tfjs-backend-webgl';
 import Webcam from 'react-webcam';
 import { Link } from 'react-router-dom';
 
-const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePosition }) => {
+const PoseEstimation = React.memo(({ updateInPosition, updateReps, updateCameraAngle, updatePosition }) => {
   // const THRESHOLD = 20
   // let last5Angles = []
   // let averageAngle
@@ -55,10 +55,17 @@ const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePositi
 
       // Make Detections
       const poses = await detector.estimatePoses(video);
-
-      console.log(poses[0])
-
+      
       let pose = poses[0]
+
+      let rightKnee = pose.keypoints[14]
+      let rightAnkle = pose.keypoints[16]
+
+      console.log(rightKnee.score, rightAnkle.score)
+      if (pose.keypoints[14].score > 0.5 && pose.keypoints[16].score > 0.5) {
+        updateInPosition(true)
+      }
+      
 
       // if (
       //   pose.keypoints[16].score > 0.4 && 

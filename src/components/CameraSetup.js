@@ -17,19 +17,19 @@ const Body = styled.div`
 export default function CameraSetup() {
     const [inPosition, setInPosition] = useState(false)
 
-    function CheckPosition() {
-        setInPosition(true)
-    }
+    const updateInPosition = useCallback((arg) => {
+        setInPosition(arg)
+    }, [inPosition])
 
     return (
         <Body>
             {
                 inPosition ?
-                <div>You're in position</div> :
+                <h1>You're in position</h1> :
                 <div>Move into position</div>
             }
             <div>this another div</div>
-            <PoseEstimation/>
+            <PoseEstimation updateInPosition={updateInPosition}/>
         </Body>
     )
 }
