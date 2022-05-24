@@ -15,8 +15,11 @@ const Body = styled.div`
 `
 
 export default function CameraSetup() {
-    const [inPosition, setInPosition] = useState(true)
+    const [inPosition, setInPosition] = useState(false)
 
+    function CheckPosition() {
+        setInPosition(true)
+    }
 
     return (
         <Body>
