@@ -78,7 +78,7 @@ export default function Tutorial() {
                     playing={true}
                 />
             </VideoContainer>
-            <Link to="/exercise" style={{ textDecoration: 'none' }}>
+            <Link to="/camera-setup" style={{ textDecoration: 'none' }}>
                 <NextButton>
                     ➔ Next
                 </NextButton>

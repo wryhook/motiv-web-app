@@ -1,7 +1,5 @@
 import styled from "styled-components"
-import { useState, useEffect } from "react"
-import { useCallback } from "react"
-import PoseEstimation from "./PoseEstimation"
+import { useState, useEffect, useCallback } from "react"
 import BluetoothSetup from "./BluetoothSetup"
 import PairingInstructions from "./PairingInstructions"
 import AngleVisualizer from "./AngleVisualizer"
