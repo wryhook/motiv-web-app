@@ -1,18 +1,19 @@
 import React from 'react'
 import { useRef } from 'react';
 import * as poseDetection from '@tensorflow-models/pose-detection';
-// import * as tf from '@tensorflow/tfjs-core';
-// Register one of the TF.js backends.
 import '@tensorflow/tfjs-backend-webgl';
-// import '@tensorflow/tfjs-backend-wasm';
-// import * as mpPose from '@mediapipe/pose';
 import Webcam from 'react-webcam';
-import { Link } from 'react-router-dom';
 
-const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePosition }) => {
-  // const THRESHOLD = 20
-  // let last5Angles = []
-  // let averageAngle
+const PoseEstimation = React.memo(({ updateInPosition, updateReps, updateAngle, rightLegChosen, targetAngle, updateRepMaxes }) => {
+  const THRESHOLD = 15 // threshold for rep to begin being recorded
+  const TARGET_ANGLE = targetAngle
+  let legAngleRaw
+  let legAngle
+  let last3Angles = []
+  let aboveThreshold = false
+  let repAngles = []
+  let repMaxes = []
+  let reps = 0
   // let last3AverageAngles = []
   // let aboveThreshold = false
   // let repAngles = []
@@ -32,9 +33,8 @@ const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePositi
     const detector = await poseDetection.createDetector(model, detectorConfig);
 
       setInterval(() => {
-        console.log("pose estimation ran")
         detect(detector);
-      }, 500);
+      }, 100);
 
   };
 
@@ -55,20 +55,62 @@ const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePositi
 
       // Make Detections
       const poses = await detector.estimatePoses(video);
-
-      console.log(poses[0])
-
+      
       let pose = poses[0]
 
-      // if (
-      //   pose.keypoints[16].score > 0.4 && 
-      //   pose.keypoints[14].score > 0.4
-      // ) {
-      //   updatePosition()
-      // }
+      let knee = rightLegChosen ? pose.keypoints[14] : pose.keypoints[13]
+      let ankle = rightLegChosen ? pose.keypoints[16] : pose.keypoints[15]
+
+      if (pose.keypoints[14].score > 0.5 && pose.keypoints[16].score > 0.5) {
+        updateInPosition(true)
+      }
       
-      // let rightAngleRaw = Math.atan((poses[0].keypoints[16].y - poses[0].keypoints[14].y) / (poses[0].keypoints[16].x - poses[0].keypoints[14].x))
-      // rightLegAngle = 90 - Math.abs(Math.floor(180 * (rightAngleRaw)/Math.PI))
+      // calculate leg angle
+      legAngleRaw = Math.atan((ankle.y - knee.y) / (ankle.x - knee.x))
+      legAngle = 90 - Math.abs(Math.floor(180 * (legAngleRaw)/Math.PI))
+
+      console.log(legAngle)
+      updateAngle(legAngle)
+
+      if(last3Angles.length < 3){ //for rep counting, incorporate negative angles (signed angles)
+        last3Angles.push(legAngle)
+      }
+      else {
+        last3Angles.unshift(legAngle)
+        last3Angles.pop()
+
+        if(last3Angles[0] > THRESHOLD &&
+          last3Angles[1] > THRESHOLD &&
+          last3Angles[2] > THRESHOLD) {
+          if(!aboveThreshold){
+            aboveThreshold = true
+            repAngles.length = 0
+          }
+        }
+        
+        if(aboveThreshold){
+          repAngles.push(legAngle)
+        }
+
+        if(last3Angles[0] < THRESHOLD &&
+        last3Angles[1] < THRESHOLD &&
+        last3Angles[2] < THRESHOLD) {
+          if(aboveThreshold){
+            aboveThreshold = false
+            reps += 1
+            console.log(`REPS: ${reps}`)
+            let repMax = Math.max.apply(Math, repAngles)
+            if(repMax > TARGET_ANGLE){
+              updateReps()
+            }
+            repMaxes.push(repMax)
+            console.log(`ALL ANGLES RECORDED: ${repAngles}`)
+            console.log(`REP MAX: ${repMax}`)
+            console.log(`REP MAXES ARRAY: ${repMaxes}`)
+            updateRepMaxes(repMaxes)
+          }
+        }
+      }
 
       // if(last5Angles.length < 5) {
       //   last5Angles.push(rightLegAngle)
@@ -141,8 +183,8 @@ const PoseEstimation = React.memo(({ updateReps, updateCameraAngle, updatePositi
 const styles = {
   video: {
     zindex: 9,
-    height: 360,
-    width: 640,
+    height: 480,
+    width: 480 * (16 / 9),
     borderRadius: 20,
     border: '2px solid #4f4f4f',
   }
