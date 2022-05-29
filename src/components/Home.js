@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import TodaysSessionCard from "./TodaysSessionCard";
 import { Link } from "react-router-dom";
+import Webcam from "react-webcam";
 
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
     return(
         <Container>
             <Sidebar />
+            <Webcam />
             <Main>
                 <Greeting>
                     Good Evening, <span style={{fontWeight: 600}}>IGEN 430</span>

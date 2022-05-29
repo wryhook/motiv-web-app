@@ -61,6 +61,7 @@ export default function ConfigureReps({ reps, updateReps }) {
         <Container>
             <SelectionMessage>
                 Enter the number of repetitions
+                <div style={{fontSize: '1.25rem', textAlign: 'center', marginTop: '0.5rem'}}>Recommended: 3-7</div>
             </SelectionMessage>
             <form>
                 <div>

@@ -61,6 +61,7 @@ export default function ConfigureTarget({ target, updateTarget }) {
         <Container>
             <SelectionMessage>
                 Enter the target leg angle
+                <div style={{fontSize: '1.25rem', textAlign: 'center', marginTop: '0.5rem'}}>Recommended: 30-75</div>
             </SelectionMessage>
             <form>
                 <div>

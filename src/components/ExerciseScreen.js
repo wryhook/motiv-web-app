@@ -33,7 +33,7 @@ export default function ExerciseScreen() {
     const [angle, setAngle] = useState(0)
     const [bluetoothReps, setBluetoothReps] = useState(0)
     const [reps, setReps] = useState(0)
-    const [isConnected, setIsConnected] = useState(false)
+    const [isConnected, setIsConnected] = useState(true)
     const [repMaxes, setRepMaxes] = useState([])
     const [endSession, setEndSession] = useState(false)
     const [receivedThreshold, getThreshold] = useState(50) //need to get these

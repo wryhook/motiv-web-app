@@ -35,6 +35,7 @@ ReactDOM.render(
         <Route path="/home-screen" element={<Home />} />
         <Route path="/ending-screen" element={<EndingScreen />} />
         <Route path="/reportcard" element={<CreateGraph />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
