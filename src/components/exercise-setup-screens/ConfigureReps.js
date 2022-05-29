@@ -7,7 +7,6 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
     background-color: #d4f0ff;
 `
 const SelectionMessage = styled.div`

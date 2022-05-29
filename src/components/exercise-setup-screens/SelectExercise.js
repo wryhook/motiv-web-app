@@ -10,7 +10,6 @@ import { getDoc, setDoc, doc, runTransaction } from "firebase/firestore"
 import { setDeprecationWarningFn } from "@tensorflow/tfjs-core/dist/tensor"
 
 const Container = styled.div`
-    margin: auto;
     display: flex;
     align-items: center;
     flex-direction: column;

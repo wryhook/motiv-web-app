@@ -184,7 +184,7 @@ const styles = {
   video: {
     zindex: 9,
     height: 480,
-    width: 480 * (16 / 9),
+    width: 480 * (4 / 3),
     borderRadius: 20,
     border: '2px solid #4f4f4f',
   }
