@@ -104,8 +104,8 @@ export default function EndingScreen() {
     const [repMaximas, setMaximas] = useState([45,45,45,45,45])
     const [name, setName] = useState('Usher')
 
-    const [sReps, setSReps] = useState(0)
-    const [uReps, setUReps] = useState(0)
+    const [passReps, setPassReps] = useState(0)
+    const [failReps, setFailReps] = useState(0)
     const [successRate, setSuccessRate] = useState(0)
     const [onTarget, setOnTarget] = useState(false)
     const [succeeding, setSucceeding] = useState(false)
@@ -158,7 +158,7 @@ export default function EndingScreen() {
         //console.log("use effect 2")
         
         //console.log("use effect 1")
-            getData()
+        getData()
 
         let s = 0
         let u = 0   
@@ -192,8 +192,8 @@ export default function EndingScreen() {
         }
 
         setSuccessRate(sr)
-        setSReps(s)
-        setUReps(u)
+        setPassReps(s)
+        setFailReps(u)
     }, [repMaximas])
 
     
@@ -214,7 +214,7 @@ export default function EndingScreen() {
                         Successful
                     </LabelText>
                     <SuccessfulReps>
-                        {sReps}
+                        {passReps}
                     </SuccessfulReps>
                 </RepsContainer>
                 
@@ -223,7 +223,7 @@ export default function EndingScreen() {
                         Unsuccessful
                     </LabelText>
                     <UnsuccessfulReps>
-                        {uReps}
+                        {failReps}
                     </UnsuccessfulReps>
                 </RepsContainer>
                 <SRContainer>
