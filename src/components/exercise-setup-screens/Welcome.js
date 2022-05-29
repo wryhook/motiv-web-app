@@ -118,7 +118,7 @@ export default function Welcome(props) {
     return(
         <Container>
             <WelcomeMessage>
-                Welcome to the motiv booth!
+                Welcome to the motiv demo!
             </WelcomeMessage>
             <GetStarted>
                 To get started, enter your name below
